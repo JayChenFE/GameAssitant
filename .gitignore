@@ -1,4 +1,78 @@
-.vs/
-obj/
-bin/
 MigrationBackup/
+/GameAssitant_TemporaryKey.pfx
+
+
+
+# Visual Studio 文件夹
+.vs/
+
+# 编译输出
+bin/
+obj/
+[Bb]uild/
+[Bb]uilds/
+
+# 用户相关文件
+*.user
+*.userosscache
+*.suo
+*.csproj.user
+*.vcxproj.user
+*.ncrunch*
+*.pcwproj.user
+
+# NuGet 包
+*.nupkg
+*.snupkg
+packages/
+*.nuget.props
+project.lock.json
+project.fragment.lock.json
+
+# Resharper
+_ReSharper*
+*.DotSettings.user
+
+# Rider
+.idea/
+
+# Log 文件
+*.log
+
+# 本地数据库
+*.mdf
+*.ldf
+
+# 图像缓存、缩略图等
+*.rsuser
+*.rscon
+*.rscom
+*.rssln
+
+# 临时文件
+*.tmp
+*.temp
+*.cache
+*.pdb
+*.obj
+*.tlog
+
+# 部署文件
+*.publish/
+.publishsettings
+
+# 强名称密钥文件
+*.snk
+*.key
+
+# 系统文件
+[Tt]humbs.db
+Desktop.ini
+
+# 安装日志文件
+*.iobj
+*.ipdb
+
+# 文件锁
+*.lock
+

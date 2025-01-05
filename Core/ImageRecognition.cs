@@ -33,7 +33,7 @@ namespace GameAssistant
                 Point minLoc = new Point(), maxLoc = new Point();
                 CvInvoke.MinMaxLoc(result, ref minVal, ref maxVal, ref minLoc, ref maxLoc);
 
-                if (maxVal >= 0.99)
+                if (maxVal >= 0.8)
                 {
                     int matchX = maxLoc.X + template.Width / 2;
                     int matchY = maxLoc.Y + template.Height / 2;

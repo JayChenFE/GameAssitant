@@ -23,14 +23,16 @@ namespace GameAssistant
 
         protected virtual bool ShouldExecute() => true;
 
-        protected virtual void BeforeTask() { }
+        protected virtual void BeforeTask() {
+            ImageAction.FindAndClickImage("主城");
+        }
 
         protected abstract void DoTask();
 
         protected virtual void AfterTask()
         {
-            SleepHelper.FluctuatingSleep(2);
-            ImageAction.FindAndClickImage("主城.png");
+            SleepHelper.FluctuatingSleep(1);
+            ImageAction.FindAndClickImage("主城");
         }
     }
 }
