@@ -1,0 +1,57 @@
+name: Build and Release for .NET Framework 4.8
+
+on:
+  push:
+    branches:
+      - master  # 在推送到 master 分支时触发
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest  # 使用 Windows runner
+
+    env:
+      Solution_Name: GameAssitant.sln         # 替换为您的解决方案文件名
+      Configuration: Release                # 配置为 Release
+      Platform: x64                         # 目标平台设置为 x64
+
+    steps:
+    # 检出代码
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # 生成版本号
+    - name: Generate version number
+      id: version
+      run: |
+        echo "VERSION=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+        echo "Generated version: $VERSION"
+
+    # 安装 MSBuild
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    # 构建项目
+    - name: Build the solution
+      run: msbuild ${{ env.Solution_Name }} /p:Configuration=${{ env.Configuration }} /p:Platform=${{ env.Platform }}
+
+    # 压缩打包构建结果
+    - name: Compress build output
+      run: |
+        mkdir release
+        Compress-Archive -Path bin\x64\Release\* -DestinationPath release/build-${{ env.VERSION }}.zip
+      shell: pwsh
+
+    # 上传到 GitHub Releases
+    - name: Upload to GitHub Releases
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: release/build-${{ env.VERSION }}.zip
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag: ${{ env.VERSION }}
+        name: "Build Release ${{ env.VERSION }}"
+        body: "Automated release created on ${{ env.VERSION }}"
+        draft: false
+        prerelease: false
