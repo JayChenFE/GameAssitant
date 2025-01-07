@@ -18,7 +18,7 @@ namespace GameAssistant
 
         protected override void DoTask()
         {
-            ImageAction.FindAndClickImages("女仆", "一键完成", "确定","空白", "完成事务","今日商城","一键完成","购买", "空白","女仆关闭");
+            ImageAction.FindAndClickImages(2, "女仆", "一键完成", "确定", "空白", "完成事务", "今日商城", "一键完成", "购买", "空白", "女仆关闭");
 
         }
     }
