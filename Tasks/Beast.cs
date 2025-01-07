@@ -31,7 +31,7 @@ namespace GameAssitant.Tasks
                 ImageAction.FindAndClickImage("挑战", 3);
                 ImageAction.FindAndClickImage("战斗", 3);
                 ImageAction.FindAndClickImage("快进", 3);
-                ImageAction.FindAndClickImage("保存", 6);
+                ImageAction.FindAndClickImage("保存", 4);
                 ImageAction.FindAndClickImage("空白关闭", 3);
                 if (i != 4)
                 {
