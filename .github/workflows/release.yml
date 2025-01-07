@@ -41,7 +41,7 @@ jobs:
     - name: Compress build output
       run: |
         mkdir release
-        Compress-Archive -Path bin\x86\Release\* -DestinationPath release/build-${{ env.VERSION }}.zip
+        Compress-Archive -Path bin\x64\Release\* -DestinationPath release/build-${{ env.VERSION }}.zip
       shell: pwsh
 
     # 上传到 GitHub Releases
