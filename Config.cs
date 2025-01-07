@@ -7,7 +7,7 @@ namespace GameAssistant
     public class Config
     {
 
-        private static readonly string ConfigFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\config.json");
+        private static readonly string ConfigFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"config.json");
         private static Config _instance;
 
         /// <summary>
