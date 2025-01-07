@@ -60,7 +60,7 @@ jobs:
     - name: Upload to GitHub Releases
       uses: ncipollo/release-action@v1
       with:
-        artifacts: release/build.zip
+        artifacts: ${{ env.ZIP_FILENAME }}
         token: ${{ secrets.GITHUB_TOKEN }}
         tag: ${{ env.RELEASE_TAG }}
         name: "Build Release"
