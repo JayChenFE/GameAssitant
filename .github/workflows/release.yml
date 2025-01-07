@@ -43,8 +43,7 @@ jobs:
       id: timestamp
       run: |
         $timestamp = (Get-Date -Format "yyyyMMddHHmm")
-        echo "ZIP_FILENAME=release/GameAssitant$timestamp.zip" >> $GITHUB_ENV
-       
+        echo "ZIP_FILENAME=release/GameAssitant$timestamp.zip" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8            
       shell: pwsh
     
     - name: Print all environment variables (sorted)
@@ -53,7 +52,7 @@ jobs:
 
 
     - name: Compress build output
-      run: Compress-Archive -Path bin\x64\Release\* -DestinationPath $env:ZIP_FILENAME
+      run: Compress-Archive -Path bin\x64\Release\* -DestinationPath ${{ env.ZIP_FILENAME }}
       shell: pwsh
 
     - name: Upload to GitHub Releases
