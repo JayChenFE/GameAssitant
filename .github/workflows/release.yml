@@ -39,12 +39,14 @@ jobs:
         }
       shell: pwsh
 
-    - name: Generate timestamped zip file
-      id: timestamp
+    - name: Generate timestamped ZIP filename and tag
       run: |
         $timestamp = (Get-Date -Format "yyyyMMddHHmm")
-        echo "ZIP_FILENAME=release/GameAssitant$timestamp.zip" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8            
+        $zipFileName = "GameAssitant$timestamp.zip"
+        echo "ZIP_FILENAME=release/$zipFileName" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+        echo "RELEASE_TAG=GameAssitant$timestamp" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
       shell: pwsh
+
     
     - name: Print all environment variables (sorted)
       run: env | sort
@@ -60,7 +62,7 @@ jobs:
       with:
         artifacts: release/build.zip
         token: ${{ secrets.GITHUB_TOKEN }}
-        tag: latest
+        tag: ${{ env.RELEASE_TAG }}
         name: "Build Release"
         body: "Automated release for the latest build."
         draft: false
