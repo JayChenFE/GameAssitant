@@ -53,7 +53,7 @@ jobs:
 
 
     - name: Compress build output
-      run: Compress-Archive -Path bin\x64\Release\* -DestinationPath ${{ env.ZIP_FILENAME }}
+      run: Compress-Archive -Path bin\x64\Release\* -DestinationPath $env:ZIP_FILENAME
       shell: pwsh
 
     - name: Upload to GitHub Releases
