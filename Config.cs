@@ -26,6 +26,7 @@ namespace GameAssistant
         }
 
         /// <summary>
+        /// <summary>
         /// 资源路径
         /// </summary>
         public string ResourcesPath { get; set; }
@@ -42,7 +43,9 @@ namespace GameAssistant
             {
                 throw new FileNotFoundException($"配置文件未找到：{configPath}");
             }
-
+            //Config config = new Config();
+            //config.ResourcesPath = "C:\\images";
+            //return config;
             string json = File.ReadAllText(configPath);
             return JsonConvert.DeserializeObject<Config>(json);
         }
