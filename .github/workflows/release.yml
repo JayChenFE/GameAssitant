@@ -46,6 +46,11 @@ jobs:
         echo "ZIP_FILENAME=release/GameAssitant$timestamp.zip" >> $GITHUB_ENV
        
       shell: pwsh
+    
+    - name: Print all environment variables (sorted)
+      run: env | sort
+      shell: bash
+
 
     - name: Compress build output
       run: Compress-Archive -Path bin\x64\Release\* -DestinationPath ${{ env.ZIP_FILENAME }}
