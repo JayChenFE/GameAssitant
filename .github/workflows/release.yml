@@ -42,10 +42,9 @@ jobs:
     - name: Generate timestamped zip file
       id: timestamp
       run: |
-        $timestamp = (Get-Date -Format "yyyyMMdd-HHmm")
-        $env:ZIP_FILENAME = "release/GameAssitant-$timestamp.zip"
-        echo "ZIP_FILENAME=$env:ZIP_FILENAME" >> $GITHUB_ENV
-        Write-Output "Generated zip file name: $env:ZIP_FILENAME"
+        $timestamp = (Get-Date -Format "yyyyMMddHHmm")
+        echo "ZIP_FILENAME=release/GameAssitant-$timestamp.zip" >> $GITHUB_ENV
+       
       shell: pwsh
 
     - name: Compress build output
