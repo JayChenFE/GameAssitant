@@ -37,6 +37,19 @@ jobs:
     - name: Build the solution
       run: msbuild ${{ env.Solution_Name }} /p:Configuration=${{ env.Configuration }} /p:Platform=${{ env.Platform }}
 
+     # 验证路径是否存在
+    - name: Verify build output exists
+      run: |
+        if (-Not (Test-Path bin\x64\Release)) {
+          Write-Output "Build output directory exists."
+          Write-Output "Displaying bin directory structure:"
+          Get-ChildItem -Path bin -Recurse | Format-List  
+          throw "Build output directory not found: bin\x64\Release"
+        } else {
+          Write-Output "Build output directory exists."
+        }
+      shell: pwsh
+    
     # 压缩打包构建结果
     - name: Compress build output
       run: |
