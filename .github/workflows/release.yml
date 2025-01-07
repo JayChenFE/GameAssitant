@@ -43,7 +43,7 @@ jobs:
       id: timestamp
       run: |
         $timestamp = (Get-Date -Format "yyyyMMddHHmm")
-        echo "ZIP_FILENAME=release/GameAssitant-$timestamp.zip" >> $GITHUB_ENV
+        echo "ZIP_FILENAME=release/GameAssitant$timestamp.zip" >> $GITHUB_ENV
        
       shell: pwsh
 
