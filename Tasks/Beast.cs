@@ -16,7 +16,7 @@ namespace GameAssitant.Tasks
     {
         protected override bool ShouldExecute()
         {
-            SleepHelper.FluctuatingSleep(2);
+            SleepHelper.FluctuatingSleep(3);
             return ImageAction.IsImagePresent("帮派圣兽");
         }
 
