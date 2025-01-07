@@ -32,7 +32,7 @@ jobs:
 
     # 构建项目文件
     - name: Build the project
-      run: msbuild ${{ env.Project_File }} /p:Configuration=${{ env.Configuration }} /p:Platform=${{ env.Platform }} /verbosity:minimal
+      run: msbuild ${{ env.Project_File }} /p:Configuration=${{ env.Configuration }}  /p:SignManifests=false /p:Platform=${{ env.Platform }} /verbosity:minimal
 
     # 验证输出路径是否存在
     - name: Verify build output exists
