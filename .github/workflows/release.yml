@@ -3,7 +3,7 @@ name: Build and Release for GameAssitant
 on:
   push:
     branches:
-      - master  # 仅在推送到 master 分支时触发
+      - master
   pull_request:
     branches:
       - master
@@ -13,45 +13,44 @@ jobs:
     runs-on: windows-latest
 
     env:
-      Project_File: GameAssitant.csproj     # 指定项目文件
-      Configuration: Release                # 配置为 Release
-      Platform: x64                         # 目标平台设置为 x64
+      Project_File: GameAssitant.csproj
+      Configuration: Release
+      Platform: x64
 
     steps:
-    # 检出代码
     - name: Checkout code
       uses: actions/checkout@v4
 
-    # 安装 MSBuild
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
 
-    # 还原依赖项
     - name: Restore NuGet packages
       run: nuget restore ${{ env.Project_File }}
 
-    # 构建项目文件
     - name: Build the project
-      run: msbuild ${{ env.Project_File }} /p:Configuration=${{ env.Configuration }}  /p:SignManifests=false /p:Platform=${{ env.Platform }} /verbosity:minimal
+      run: msbuild ${{ env.Project_File }} /p:Configuration=${{ env.Configuration }} /p:Platform=${{ env.Platform }} /p:SignManifests=false /verbosity:minimal
 
-    # 验证输出路径是否存在
-    - name: Verify build output exists
+    - name: Debug build output
       run: |
-        if (-Not (Test-Path bin\x64\Release)) {
+        if (Test-Path bin\x64\Release) {
           Write-Output "Build output directory exists."
           Get-ChildItem -Path bin\x64\Release -Recurse | Format-List
-          throw "Build output directory not found: bin\x64\Release"
         } else {
-          
+          Write-Output "Build output directory does not exist."
         }
       shell: pwsh
 
-    # 压缩打包构建结果
-    - name: Compress build output
-      run: Compress-Archive -Path bin\x64\Release\* -DestinationPath release\build.zip
+    - name: Create release directory
+      run: |
+        if (-Not (Test-Path release)) {
+          New-Item -ItemType Directory -Path release
+        }
       shell: pwsh
 
-    # 上传到 GitHub Releases
+    - name: Compress build output
+      run: Compress-Archive -Path bin\x64\Release\* -DestinationPath release/build.zip
+      shell: pwsh
+
     - name: Upload to GitHub Releases
       uses: ncipollo/release-action@v1
       with:
