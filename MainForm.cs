@@ -5,7 +5,6 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using static GameAssistant.MouseAutomation;
 
 namespace GameAssitant
 {
@@ -16,14 +15,33 @@ namespace GameAssitant
         public MainForm()
         {
             InitializeComponent();
-            _taskManager.RegisterTask(new Mail());
-            _taskManager.RegisterTask(new Maid());
-            _taskManager.RegisterTask(new Beast());
-            _taskManager.RegisterTask(new BonusForRecharge());
-            _taskManager.RegisterTask(new DailyRace());
-            _taskManager.RegisterTask(new EquipmentCrafting());
-            _taskManager.RegisterTask(new FatefulGame());
+            RegisterAllTasks();
+        }
 
+        private void RegisterAllTasks()
+        {
+            //_taskManager.RegisterTask(new BeastChangllenge()); //圣兽挑战
+
+
+            _taskManager.RegisterTask(new Mail()); //邮件
+            _taskManager.RegisterTask(new Maid()); //女仆
+            _taskManager.RegisterTask(new Beast());//帮派圣兽
+            _taskManager.RegisterTask(new Talk()); //帮派聊天
+            _taskManager.RegisterTask(new BonusForRecharge());//充值免费钻石
+            _taskManager.RegisterTask(new DailyRace());// 每日跨服竞技赛
+            _taskManager.RegisterTask(new EquipmentCrafting()); //合成装备
+            _taskManager.RegisterTask(new Shop()); //日常商店
+
+            _taskManager.RegisterTask(new GangChanllenge()); //帮派试炼
+
+            _taskManager.RegisterTask(new ExpeditionBeast()); //远征兽墟
+            _taskManager.RegisterTask(new FatefulGame()); //天命棋局
+            _taskManager.RegisterTask(new HallOfFate()); //命运之殿
+            _taskManager.RegisterTask(new SummonHero()); //召唤英雄
+
+            _taskManager.RegisterTask(new DailyTask()); // 领取日常任务
+            _taskManager.RegisterTask(new Pet()); //灵宠孵化
+            _taskManager.RegisterTask(new Otherworld()); //异界远征
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -41,13 +59,13 @@ namespace GameAssitant
 
         private void imageName_TextChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void test_Click(object sender, EventArgs e)
         {
             // 获取输入框中的图片名称
-            string imageName = txtImageName.Text.Trim()+".png";
+            string imageName = txtImageName.Text.Trim() + ".png";
             if (string.IsNullOrEmpty(imageName))
             {
                 MessageBox.Show("请输入图片名称！");
@@ -55,8 +73,8 @@ namespace GameAssitant
             }
 
             // 拼接图片路径
-            string resourcesPath = Config.Instance.ResourcesPath; // 从配置中获取资源路径
-            string imagePath = Path.Combine(resourcesPath, imageName);
+            string imageFolderPath = Config.Instance.ImageFolderPath; // 从配置中获取资源路径
+            string imagePath = Path.Combine(imageFolderPath, imageName);
 
             // 检查文件是否存在
             if (!File.Exists(imagePath))
@@ -76,12 +94,11 @@ namespace GameAssitant
                 MessageBox.Show("未找到图片！");
             }
         }
-            
+
         private void btnTestOther_Click(object sender, EventArgs e)
         {
-            SleepHelper.RandomSleep(1,2);
-            var offset= int.Parse(txtInput.Text.Trim());
-            DragMouse(offset, Direction.Up);
+            MouseAction.Click(2, "帮派", "主城","空地");
+            MouseAutomation.DragMouse(1000,MouseAutomation.Direction.Left);
         }
     }
 }

@@ -100,7 +100,7 @@ namespace GameAssistant
             Func<bool> isScreenUpdated = null,
             int timeoutSeconds = 5)
         {
-            DelayExecution(delaySeconds);
+            SleepHelper.DelayExecution(delaySeconds);
 
             string imagePath = GetImagePath(imageNameWithoutExtension);
             if (string.IsNullOrEmpty(imagePath)) return Point.Empty;
@@ -147,16 +147,7 @@ namespace GameAssistant
         }
 
         /// <summary>
-        /// 延迟执行。
-        /// </summary>
-        /// <param name="seconds">延迟时间（秒）。</param>
-        private static void DelayExecution(int seconds)
-        {
-            if (seconds > 0)
-            {
-                Thread.Sleep(seconds * 1000);
-            }
-        }
+
 
         /// <summary>
         /// 获取图片的完整路径。
@@ -165,15 +156,15 @@ namespace GameAssistant
         /// <returns>图片完整路径，如果不存在则返回 null。</returns>
         private static string GetImagePath(string imageNameWithoutExtension)
         {
-            string resourcesPath = Config.Instance.ResourcesPath;
-            if (!Directory.Exists(resourcesPath))
+            string imageFolderPath = Config.Instance.ImageFolderPath;
+            if (!Directory.Exists(imageFolderPath))
             {
-                Logger.Log($"Resources 文件夹不存在：{resourcesPath}");
+                Logger.Log($"imageFolderPath 文件夹不存在：{imageFolderPath}");
                 return null;
             }
 
             string imageName = $"{imageNameWithoutExtension}.png";
-            string imagePath = Path.Combine(resourcesPath, imageName);
+            string imagePath = Path.Combine(imageFolderPath, imageName);
 
             if (!File.Exists(imagePath))
             {

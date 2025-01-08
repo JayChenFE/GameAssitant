@@ -27,7 +27,16 @@ namespace GameAssistant.Utils
             SleepWithinRange(minSeconds, maxSeconds);
         }
 
-        
+        /// 延迟执行。
+        /// </summary>
+        /// <param name="seconds">延迟时间（秒）。</param>
+        public static void DelayExecution(int seconds)
+        {
+            if (seconds > 0)
+            {
+                Thread.Sleep(seconds * 1000);
+            }
+        }
 
         /// <summary>
         /// 在给定秒数的正负 0.5 秒范围内延迟，最少为 0 秒。

@@ -11,19 +11,22 @@ namespace GameAssistant
     /// </summary>
     public class Mail : TaskBase
     {
-
+        public Mail()
+        {
+            TaskName = "邮件";
+        }
 
         protected override void DoTask()
         {
-            ImageAction.FindAndClickImages(2, "邮件", "一键领取", "空白", "删除已读", "确定");
+            MouseAction.Click(2, "邮件", "删除已读", "邮件确定", "邮件一键领取", "邮件空白", "删除已读", "邮件确定");
 
-            ImageAction.FindAndClickImage("系统邮件");
-            for (int i = 0; i < 3; i++)
-            {
-                ImageAction.FindAndClickImages(2, "删除已读", "确定", "时间", "领取", "空白");
-            }
+            MouseAction.Click("系统邮件", 2);
 
-            ImageAction.FindAndClickImage("关闭");
+
+            MouseAction.Click(2, 3, "邮件01", "邮件领取", "邮件空白2", "系统删除已读", "邮件确定");
+
+
+            MouseAction.Click("关闭", 2);
         }
 
 

@@ -10,17 +10,14 @@ namespace GameAssitant.Tasks
 {
     public class BonusForRecharge : TaskBase
     {
-        protected override bool ShouldExecute()
-        {
-            SleepHelper.FluctuatingSleep(2);
-            return ImageAction.IsImagePresent("充值");
+
+        public BonusForRecharge() {
+            TaskName = "充值免费钻石";
         }
-
-
+        
         protected override void DoTask()
         {
-            ImageAction.FindAndClickImages(2, "充值", "0元", "确定", "空白", "日礼包", "20钻", "空白", "连购关闭", "连购回退", "连购回退");
-
+            MouseAction.Click(2, "充值", "0元", "充值空白", "日礼包", "20钻", "充值空白", "连购关闭", "连购回退", "连购回退");
         }
     }
 }
