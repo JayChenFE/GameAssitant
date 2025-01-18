@@ -47,11 +47,6 @@ jobs:
         echo "RELEASE_TAG=GameAssitant$timestamp" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
       shell: pwsh
 
-    
-    - name: Print all environment variables (sorted)
-      run: env | sort
-      shell: bash
-
 
     - name: Compress build output
       run: Compress-Archive -Path bin\x64\Release\* -DestinationPath ${{ env.ZIP_FILENAME }}
@@ -67,3 +62,30 @@ jobs:
         body: "Automated release for the latest build."
         draft: false
         prerelease: false
+
+    - name: Push code and artifacts to Gitee
+      run: |
+        # Configure git to use Gitee
+        git config --global user.email "diamond007@163.com"
+        git config --global user.name "JaychenFE"
+        
+        # Add Gitee remote
+        git remote add gitee ${{ env.GITEE_REPO }} || true
+        
+        # Push the master branch to Gitee
+        git push gitee master
+        
+        # Create a release on Gitee
+        RELEASE_RESPONSE=$(curl --silent --header "PRIVATE-TOKEN: ${{ secrets.GITEE_TOKEN }}" --data "tag_name=${{ env.GITEE_TAG }}" --data "name=${{ env.GITEE_TAG }}" --data "body=Automated release for the latest build." --data "draft=false" --data "prerelease=false" "https://gitee.com/api/v5/repos/${{ env.GITEE_REPO }}/releases")
+    
+        # Extract release ID from response
+        RELEASE_ID=$(echo $RELEASE_RESPONSE | jq -r '.id')
+        
+        # Upload the build artifact to Gitee
+        curl --header "PRIVATE-TOKEN: ${{ secrets.GITEE_TOKEN }}" --upload-file ${{ env.ZIP_FILENAME }} "https://gitee.com/api/v5/repos/${{ env.GITEE_REPO }}/releases/${RELEASE_ID}/assets?name=$(basename ${{ env.ZIP_FILENAME }})"
+      env:
+        GITEE_REPO: "JaychenFE/GameAssitant"  # Gitee 仓库
+        GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
+        ZIP_FILENAME: ${{ env.ZIP_FILENAME }}  # 压缩后的文件路径
+        GITEE_TAG: ${{ env.RELEASE_TAG }}  # 要创建的 Release 标签
+      shell: bash
