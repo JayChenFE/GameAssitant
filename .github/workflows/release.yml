@@ -63,40 +63,4 @@ jobs:
         draft: false
         prerelease: false
      
-    - name: Set up SSH key for Gitee
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.GITEE_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan gitee.com >> ~/.ssh/known_hosts
-      shell: bash
-
-    - name: Push code and artifacts to Gitee
-      run: |
-        # Configure git to use Gitee
-        git config --global user.email "diamond007@163.com"
-        git config --global user.name "JaychenFE"
-        
-        # Add Gitee remote
-        git remote add gitee git@gitee.com:JaychenFE/GameAssitant.git || true
-        
-        # Push the master branch to Gitee
-        git pull gitee master  --allow-unrelated-histories
-        git push gitee master
-        
-        # Create a release on Gitee
-        RELEASE_RESPONSE=$(curl "https://gitee.com/api/v5/repos/JaychenFE/GameAssitant/releases")
-
-        # Print the response for debugging
-        echo "Release Response: $RELEASE_RESPONSE"
-        # Extract release ID from response
-        RELEASE_ID=$(echo $RELEASE_RESPONSE | jq -r '.[0].id')
-        
-        # Upload the build artifact to Gitee
-        curl --header "PRIVATE-TOKEN: ${{ secrets.GITEE_TOKEN }}" --upload-file ${{ env.ZIP_FILENAME }} "https://gitee.com/api/v5/repos/${{ env.GITEE_REPO }}/releases/${RELEASE_ID}/assets?name=$(basename ${{ env.ZIP_FILENAME }})"
-      env:
-        GITEE_REPO: https://gitee.com/JaychenFE/GameAssitant.git  # Gitee 仓库
-        GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
-        ZIP_FILENAME: ${{ env.ZIP_FILENAME }}  # 压缩后的文件路径
-        GITEE_TAG: ${{ env.RELEASE_TAG }}  # 要创建的 Release 标签
-      shell: bash
+   
