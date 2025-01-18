@@ -81,7 +81,7 @@ jobs:
         git remote add gitee git@gitee.com:JaychenFE/GameAssitant.git || true
         
         # Push the master branch to Gitee
-        git push gitee master -f
+        git push gitee master
         
         # Create a release on Gitee
         RELEASE_RESPONSE=$(curl --silent --header "PRIVATE-TOKEN: ${{ secrets.GITEE_TOKEN }}" --data "tag_name=${{ env.GITEE_TAG }}" --data "name=${{ env.GITEE_TAG }}" --data "body=Automated release for the latest build." --data "draft=false" --data "prerelease=false" "https://gitee.com/api/v5/repos/${{ env.GITEE_REPO }}/releases")
