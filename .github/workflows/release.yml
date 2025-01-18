@@ -81,7 +81,7 @@ jobs:
         git remote add gitee git@gitee.com:JaychenFE/GameAssitant.git || true
         
         # Push the master branch to Gitee
-        git pull gitee master 
+        git pull gitee master  --allow-unrelated-histories
         git push gitee master
         
         # Create a release on Gitee
