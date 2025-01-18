@@ -85,8 +85,16 @@ jobs:
         git push gitee master
         
         # Create a release on Gitee
-        RELEASE_RESPONSE=$(curl --silent --header "PRIVATE-TOKEN: ${{ secrets.GITEE_TOKEN }}" --data "tag_name=${{ env.GITEE_TAG }}" --data "name=${{ env.GITEE_TAG }}" --data "body=Automated release for the latest build." --data "draft=false" --data "prerelease=false" "https://gitee.com/api/v5/repos/${{ env.GITEE_REPO }}/releases")
-    
+        RELEASE_RESPONSE=$(curl --silent --header "PRIVATE-TOKEN: ${{ secrets.GITEE_TOKEN }}" \
+          --data "tag_name=${{ env.GITEE_TAG }}" \
+          --data "name=${{ env.GITEE_TAG }}" \
+          --data "body=Automated release for the latest build." \
+          --data "draft=false" \
+          --data "prerelease=false" \
+          "https://gitee.com/api/v5/repos/${{ env.GITEE_REPO }}/releases")
+
+        # Print the response for debugging
+        echo "Release Response: $RELEASE_RESPONSE"
         # Extract release ID from response
         RELEASE_ID=$(echo $RELEASE_RESPONSE | jq -r '.id')
         
