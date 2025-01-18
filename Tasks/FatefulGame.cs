@@ -1,11 +1,11 @@
 ﻿using GameAssistant;
 using GameAssistant.Utils;
+using GameAssitant.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static GameAssistant.MouseAutomation;
 
 namespace GameAssitant.Tasks
 {
@@ -14,48 +14,37 @@ namespace GameAssitant.Tasks
     /// </summary>
     public class FatefulGame : TaskBase
     {
+
+
+        public FatefulGame()
+        {
+            TaskName = "天命棋局";
+        }
+
+        protected override bool ShouldExecute()
+        {
+            return ShouldRunFatefulGame();
+        }
+
+
+
         protected override void DoTask()
         {
+            MouseAction.Click(2, "历练", "历练左下");
+            MouseAutomation.DragMouse(1000, MouseAutomation.Direction.Up);
 
-            ImageAction.FindAndClickImage("历练");
-            DragMouse(400, Direction.Up);
-            DragMouse(500, Direction.Up);
+            MouseAction.Click(3, "天命棋局", "一键布阵", "进入冒险", "快速通关本层");
 
-            if (!ImageAction.IsImagePresent("棋局检查"))
-            {
-                ImageAction.FindAndClickImage("主城");
-                return;
-            }
+            MouseAction.Click(6, 5, "快速通关本层", "下一层");
 
-            ImageAction.FindAndClickImages(2, "天命棋局", "一键布阵");
+            MouseAction.Click(6, "奖励预览");
 
-            ImageAction.FindAndClickImages(4, "进入冒险", "快速通关本层");
+            MouseAction.Click(3, 5, "天命领取");
 
-            
-            for (int i = 0; i < 5; i++)
-            {
-                ImageAction.FindAndClickImages(6, "快速通关本层", "下一层");
-            }
-
-            ImageAction.FindAndClickImage("奖励预览", 6);
-
-
-            while (ImageAction.IsImagePresent("天命领取"))
-            {
-                ImageAction.FindAndClickImage("天命领取");
-                SleepHelper.FluctuatingSleep(3);
-            }
-
-            DragMouse(400, Direction.Up);
-
-            while (ImageAction.IsImagePresent("天命领取"))
-            {
-                ImageAction.FindAndClickImage("天命领取");
-                SleepHelper.FluctuatingSleep(3);
-            }
-
-            ImageAction.FindAndClickImages(2, "天命关闭", "回退", "回退", "主城");
+            MouseAction.Click(2, "天命关闭", "回退", "回退", "主城");
         }
+
+        private bool ShouldRunFatefulGame() { return DateTimeUtil.IsTaskDue("2025-01-16", 2); }
 
     }
 }

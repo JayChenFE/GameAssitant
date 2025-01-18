@@ -10,10 +10,14 @@ namespace GameAssitant.Tasks
 {
     public class EquipmentCrafting : TaskBase
     {
+        public EquipmentCrafting() {
+            TaskName = "合成装备";
+        }
+
         protected override void DoTask()
         {
-            ImageAction.FindAndClickImages(2, "炼器坊", "一键合成", "炼器确定");
-            ImageAction.FindAndClickImages(3,"空白","回退", "回退");
+            MouseAction.Click(2, "炼器坊", "合成");
+            MouseAction.Click(2, 2, "回退");
         }
 
 

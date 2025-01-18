@@ -5,22 +5,24 @@ namespace GameAssitant.Tasks
 {
     public class DailyRace : TaskBase
     {
+        public DailyRace()
+        {
+            TaskName = "每日跨服竞技赛";
+        }
+
         protected override bool ShouldExecute()
         {
             // 周三到周日执行
-            return DateUtil.IsWednesdayToSunday();
+            return DateTimeUtil.IsWednesdayToSunday();
         }
 
 
 
         protected override void DoTask()
         {
-            ImageAction.FindAndClickImages(2, "竞技", "跨服竞技赛");
-            for (int i = 0; i < 10; i++)
-            {
-                ImageAction.FindAndClickImages("一键战斗", "确定", "空白");
-            }
-            ImageAction.FindAndClickImages(2, "回退", "回退");
+            MouseAction.Click(3, "竞技", "跨服竞技赛");
+            MouseAction.Click(2, 10, "竞技一键", "竞技确定", "竞技空白");
+            MouseAction.Click(2, "竞技回退", "主城");
         }
     }
 }
