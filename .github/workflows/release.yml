@@ -91,7 +91,7 @@ jobs:
           --data "body=Automated release for the latest build." \
           --data "draft=false" \
           --data "prerelease=false" \
-          "https://gitee.com/api/v5/repos/JaychenFE/GameAssitant.git/releases")
+          "https://gitee.com/api/v5/repos/JaychenFE/GameAssitant/releases")
 
         # Print the response for debugging
         echo "Release Response: $RELEASE_RESPONSE"
