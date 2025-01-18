@@ -63,7 +63,7 @@ jobs:
         draft: false
         prerelease: false
      
-     - name: Add Gitee to known hosts
+    - name: Add Gitee to known hosts
       run: |
         mkdir -p ~/.ssh
         ssh-keyscan gitee.com >> ~/.ssh/known_hosts
