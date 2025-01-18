@@ -84,7 +84,7 @@ jobs:
         # Upload the build artifact to Gitee
         curl --header "PRIVATE-TOKEN: ${{ secrets.GITEE_TOKEN }}" --upload-file ${{ env.ZIP_FILENAME }} "https://gitee.com/api/v5/repos/${{ env.GITEE_REPO }}/releases/${RELEASE_ID}/assets?name=$(basename ${{ env.ZIP_FILENAME }})"
       env:
-        GITEE_REPO: "JaychenFE/GameAssitant"  # Gitee 仓库
+        GITEE_REPO: "git@gitee.com:JaychenFE/GameAssitant.git"  # Gitee 仓库
         GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
         ZIP_FILENAME: ${{ env.ZIP_FILENAME }}  # 压缩后的文件路径
         GITEE_TAG: ${{ env.RELEASE_TAG }}  # 要创建的 Release 标签
