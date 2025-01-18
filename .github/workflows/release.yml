@@ -63,9 +63,11 @@ jobs:
         draft: false
         prerelease: false
      
-    - name: Add Gitee to known hosts
+    - name: Set up SSH key for Gitee
       run: |
         mkdir -p ~/.ssh
+        echo "${{ secrets.GITEE_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
         ssh-keyscan gitee.com >> ~/.ssh/known_hosts
       shell: bash
 
@@ -76,7 +78,7 @@ jobs:
         git config --global user.name "JaychenFE"
         
         # Add Gitee remote
-        git remote add gitee ${{ env.GITEE_REPO }} || true
+        git remote add gitee git@gitee.com:JaychenFE/GameAssitant.git || true
         
         # Push the master branch to Gitee
         git push gitee master
@@ -90,7 +92,7 @@ jobs:
         # Upload the build artifact to Gitee
         curl --header "PRIVATE-TOKEN: ${{ secrets.GITEE_TOKEN }}" --upload-file ${{ env.ZIP_FILENAME }} "https://gitee.com/api/v5/repos/${{ env.GITEE_REPO }}/releases/${RELEASE_ID}/assets?name=$(basename ${{ env.ZIP_FILENAME }})"
       env:
-        GITEE_REPO: "git@gitee.com:JaychenFE/GameAssitant.git"  # Gitee 仓库
+        GITEE_REPO: https://gitee.com/JaychenFE/GameAssitant.git  # Gitee 仓库
         GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
         ZIP_FILENAME: ${{ env.ZIP_FILENAME }}  # 压缩后的文件路径
         GITEE_TAG: ${{ env.RELEASE_TAG }}  # 要创建的 Release 标签
