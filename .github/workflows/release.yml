@@ -90,7 +90,7 @@ jobs:
         # Print the response for debugging
         echo "Release Response: $RELEASE_RESPONSE"
         # Extract release ID from response
-        RELEASE_ID=$(echo $RELEASE_RESPONSE | jq -r '.id')
+        RELEASE_ID=$(echo $RELEASE_RESPONSE | jq -r '.[0].id')
         
         # Upload the build artifact to Gitee
         curl --header "PRIVATE-TOKEN: ${{ secrets.GITEE_TOKEN }}" --upload-file ${{ env.ZIP_FILENAME }} "https://gitee.com/api/v5/repos/${{ env.GITEE_REPO }}/releases/${RELEASE_ID}/assets?name=$(basename ${{ env.ZIP_FILENAME }})"
