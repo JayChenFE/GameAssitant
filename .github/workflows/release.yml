@@ -67,3 +67,102 @@ jobs:
         body: "Automated release for the latest build."
         draft: false
         prerelease: false
+    -name: Build and Release for GameAssitant
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+
+    env:
+      Project_File: GameAssitant.csproj
+      Configuration: Release
+      Platform: x64
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Restore NuGet packages
+      run: nuget restore ${{ env.Project_File }}
+
+    - name: Build the project
+      run: msbuild ${{ env.Project_File }} /p:Configuration=${{ env.Configuration }} /p:Platform=${{ env.Platform }} /p:SignManifests=false /verbosity:minimal
+
+ 
+
+    - name: Create release directory
+      run: |
+        if (-Not (Test-Path release)) {
+          New-Item -ItemType Directory -Path release
+        }
+      shell: pwsh
+
+    - name: Generate timestamped ZIP filename and tag
+      run: |
+        $timestamp = (Get-Date -Format "yyyyMMddHHmm")
+        $zipFileName = "GameAssitant$timestamp.zip"
+        echo "ZIP_FILENAME=release/$zipFileName" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+        echo "RELEASE_TAG=GameAssitant$timestamp" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+      shell: pwsh
+
+    
+    - name: Print all environment variables (sorted)
+      run: env | sort
+      shell: bash
+
+
+    - name: Compress build output
+      run: Compress-Archive -Path bin\x64\Release\* -DestinationPath ${{ env.ZIP_FILENAME }}
+      shell: pwsh
+
+    - name: Upload to GitHub Releases
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: ${{ env.ZIP_FILENAME }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag: ${{ env.RELEASE_TAG }}
+        name: "Build Release"
+        body: "Automated release for the latest build."
+        draft: false
+        prerelease: false
+
+     - name: Push code and artifacts to Gitee
+      run: |
+      
+        # Configure git to use Gitee
+        git config --global user.email "diamond007@163.com"
+        git config --global user.name "JaychenFE"
+        
+        # Add Gitee remote
+        git remote add gitee ${{ env.GITEE_REPO }} || true
+        
+        # Push the master branch to Gitee
+        git push gitee master
+        
+        # Upload the build artifact to Gitee (using a simple curl to Gitee API)
+        curl --header "PRIVATE-TOKEN: ${{ secrets.GITEE_TOKEN }}" --upload-file ${{ env.ZIP_FILENAME }} "https://gitee.com/api/v5/repos/your-username/your-repo/releases/assets?name=$(basename ${{ env.ZIP_FILENAME }})"
+        
+        # Create a release on Gitee
+        RELEASE_RESPONSE=$(curl --silent --header "PRIVATE-TOKEN: ${{ secrets.GITEE_TOKEN }}" --data "tag_name=${{ env.GITEE_TAG }}" --data "name=${{ env.GITEE_TAG }}" --data "body=Automated release for the latest build." --data "draft=false" --data "prerelease=false" "https://gitee.com/api/v5/repos/${{ env.GITEE_REPO }}/releases")
+    
+        # Extract release ID from response
+        RELEASE_ID=$(echo $RELEASE_RESPONSE | jq -r '.id')
+        
+        # Upload the build artifact to Gitee
+        curl --header "PRIVATE-TOKEN: ${{ secrets.GITEE_TOKEN }}" --upload-file ${{ env.ZIP_FILENAME }} "https://gitee.com/api/v5/repos/${{ env.GITEE_REPO }}/releases/${RELEASE_ID}/assets?name=$(basename ${{ env.ZIP_FILENAME }})"
+
+      env:
+        GITEE_REPO: https://gitee.com/JaychenFE/GameAssitant.git
+        GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
+      shell: bash
