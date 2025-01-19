@@ -4,43 +4,67 @@ using System.Drawing;
 using System.IO;
 using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Serialization;
+using GameAssitant.Configs;
+using System.Security.Principal;
+using System.Threading;
 
-namespace GameAssistant
+namespace GameAssistant.Configs
 {
     public class Config
     {
-
+        public bool IsForce { get; set; }
         public Dictionary<string, Point> Coordinates { get; private set; }
         public ScaleConfig Scale { get; private set; }
 
         public string ImageFolderPath { get; private set; }
+
+        public List<Account> Accounts { get; set; }
+
+        public List<Account> SelectedAccounts { get; set; }
+
+        public List<String> SelectedTaskNames { get; set; }
+
+        private static ReaderWriterLockSlim rwLock = new ReaderWriterLockSlim();
+        private Account _currentAccount;
+        public Account CurrentAccount
+        {
+            get
+            {
+                rwLock.EnterReadLock();
+                try
+                {
+                    return _currentAccount;
+                }
+                finally
+                {
+                    rwLock.ExitReadLock();
+                }
+            }
+            set
+            {
+                rwLock.EnterWriteLock();
+                try
+                {
+                    _currentAccount = value;
+                }
+                finally
+                {
+                    rwLock.ExitWriteLock();
+                }
+            }
+        }
 
         private static readonly string ResourcePath = "C:\\resource";
         private static readonly string CoordinateFilePath = Path.Combine(ResourcePath, "coordinate.yaml");
         private static readonly string ScaleFilePath = Path.Combine(ResourcePath, "scale.yaml");
         private static Config _instance;
 
-        public class ScaleConfig
+        public List<Account> GetAccountsToExecute()
         {
-            public int OriginalStartX { get; set; }
-            public int OriginalStartY { get; set; }
-            public int StartX { get; set; }
-            public int StartY { get; set; }
-            public double ScaleX { get; set; }
-            public double ScaleY { get; set; }
-
-            /// <summary>
-            /// 计算实际坐标。
-            /// </summary>
-            /// <param name="original">原始坐标。</param>
-            /// <returns>按比例调整后的坐标。</returns>
-            public Point CalculateScaledPoint(Point original)
-            {
-                int scaledX = (int)(StartX + (original.X - OriginalStartX) * ScaleX);
-                int scaledY = (int)(StartY + (original.Y - OriginalStartY) * ScaleY);
-                return new Point(scaledX, scaledY);
-            }
+            return (SelectedAccounts != null && SelectedAccounts.Count > 0) ? SelectedAccounts : Accounts;
         }
+
+
 
 
 
@@ -56,7 +80,10 @@ namespace GameAssistant
             Config config = new Config();
             config.Coordinates = LoadYamlCoordinates(CoordinateFilePath);
             config.Scale = LoadYaml<ScaleConfig>(ScaleFilePath);
+            config.Accounts = LoadYaml<List<Account>>(Path.Combine(ResourcePath, "account.yaml"));
             config.ImageFolderPath = Path.Combine(ResourcePath, "images");
+
+
 
             return config;
         }

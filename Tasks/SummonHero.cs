@@ -17,8 +17,11 @@ namespace GameAssitant.Tasks
 
         protected override void DoTask()
         {
-            MouseAction.Click(2, "召唤", "召唤10次");
-            MouseAction.Click(3, 3, "召唤返回");
+            MouseAction.Click(2, "召唤");
+            MouseAction.Click("召唤10次", afterDelaySeconds: 0.2);
+            MouseAction.Click("中上", afterDelaySeconds: 0.2);
+            MouseAction.Click("中上", afterDelaySeconds: 0.2);
+            MouseAction.Click("召唤返回");
             MouseAction.Click("回退");
         }
     }

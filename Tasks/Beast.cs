@@ -21,7 +21,7 @@ namespace GameAssitant.Tasks
             TaskName = "帮派圣兽";
         }
 
-        protected override bool ShouldExecute()
+        protected override bool CustomShouldExecute()
         {
             return ImageAction.IsImagePresent("帮派圣兽") && DateTimeUtil.IsWithinTimeRange("12:00", "20:15");
         }

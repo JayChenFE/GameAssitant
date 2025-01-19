@@ -17,7 +17,9 @@ namespace GameAssitant.Tasks
 
         protected override void DoTask()
         {
-            MouseAction.Click(3, "聊天", "聊天-帮派", "聊天-表情", "哦", "主城");
+            MouseAction.Click("聊天", afterDelaySeconds: 1);
+            ImageAction.FindAndClickImage("帮派聊天", delaySeconds: 0);
+            MouseAction.Click(1.5, "聊天-表情", "哦");
         }
     }
 }

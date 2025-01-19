@@ -128,12 +128,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configs\Account.cs" />
+    <Compile Include="Configs\ScaleConfig.cs" />
     <Compile Include="Core\MouseAction.cs" />
     <Compile Include="Core\MouseAutomation.cs" />
-    <Compile Include="Config.cs" />
+    <Compile Include="Configs\Config.cs" />
     <Compile Include="Core\ImageAction.cs" />
     <Compile Include="Core\TaskBase.cs" />
     <Compile Include="Core\TaskManager.cs" />
+    <Compile Include="MainForm.Task.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Test.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Tasks\Beast.cs" />
     <Compile Include="Tasks\BeastChangllenge.cs" />
     <Compile Include="Tasks\BonusForRecharge.cs" />
