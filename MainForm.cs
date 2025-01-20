@@ -20,7 +20,7 @@ namespace GameAssitant
 
         private void RegisterAllTasks()
         {
-            //_taskManager.RegisterTask(new BeastChangllenge()); //圣兽挑战
+           
 
 
             _taskManager.RegisterTask(new Mail()); //邮件
@@ -37,6 +37,8 @@ namespace GameAssitant
             _taskManager.RegisterTask(new ExpeditionBeast()); //远征兽墟
             _taskManager.RegisterTask(new FatefulGame()); //天命棋局
             _taskManager.RegisterTask(new HallOfFate()); //命运之殿
+            _taskManager.RegisterTask(new BeastChangllenge()); //圣兽挑战
+            
             _taskManager.RegisterTask(new SummonHero()); //召唤英雄
 
             _taskManager.RegisterTask(new DailyTask()); // 领取日常任务
