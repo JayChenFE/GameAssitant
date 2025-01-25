@@ -30,11 +30,11 @@ namespace GameAssistant.Utils
         /// 延迟执行。
         /// </summary>
         /// <param name="seconds">延迟时间（秒）。</param>
-        public static void DelayExecution(int seconds)
+        public static void DelayExecution(double seconds)
         {
             if (seconds > 0)
             {
-                Thread.Sleep(seconds * 1000);
+                Thread.Sleep((int)(seconds * 1000));
             }
         }
 

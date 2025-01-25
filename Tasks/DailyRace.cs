@@ -10,7 +10,7 @@ namespace GameAssitant.Tasks
             TaskName = "每日跨服竞技赛";
         }
 
-        protected override bool ShouldExecute()
+        protected override bool CustomShouldExecute()
         {
             // 周三到周日执行
             return DateTimeUtil.IsWednesdayToSunday();

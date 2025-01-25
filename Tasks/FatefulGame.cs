@@ -21,7 +21,7 @@ namespace GameAssitant.Tasks
             TaskName = "天命棋局";
         }
 
-        protected override bool ShouldExecute()
+        protected override bool CustomShouldExecute()
         {
             return ShouldRunFatefulGame();
         }

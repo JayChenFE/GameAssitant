@@ -1,10 +1,8 @@
-﻿using GameAssistant.Utils;
-using GameAssitant;
+﻿using GameAssistant.Configs;
+using GameAssistant.Utils;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Threading;
 
 namespace GameAssistant
 {

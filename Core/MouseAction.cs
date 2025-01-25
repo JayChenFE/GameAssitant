@@ -1,4 +1,5 @@
-﻿using GameAssistant.Utils;
+﻿using GameAssistant.Configs;
+using GameAssistant.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -12,12 +13,12 @@ namespace GameAssistant
     {
 
 
-        public static void Click(int delaySeconds = 0, params string[] imageNames)
+        public static void Click(double delaySeconds = 0, params string[] imageNames)
         {
             Click(delaySeconds, 1, imageNames);
         }
 
-        public static void Click(int delaySeconds = 0, int times = 1, params string[] imageNames)
+        public static void Click(double delaySeconds = 0, int times = 1, params string[] imageNames)
         {
             if (imageNames == null || imageNames.Length == 0)
             {
@@ -32,14 +33,30 @@ namespace GameAssistant
                     Click(imageName, delaySeconds);
                 }
             }
-
-
         }
+
+
+        public static void ClickPoint(Point point, double delaySeconds = 1, double afterDelaySeconds = 0, bool isDoubleClick = false) {
+            SleepHelper.DelayExecution(delaySeconds);
+
+            if (isDoubleClick)
+            {
+
+                MouseAutomation.DoubleClickAt(point);
+            }
+            else
+            {
+                MouseAutomation.ClickAt(point);
+            }
+
+            SleepHelper.DelayExecution(afterDelaySeconds);
+        }
+
         /// <summary>
         /// 根据图片名称从配置文件中获取坐标并点击。
         /// </summary>
         /// <param name="imageName">图片名称，不包含扩展名。</param>
-        public static void Click(string imageName, int delaySeconds = 1, int afterDelaySeconds = 0, bool isDoubleClick = false)
+        public static void Click(string imageName, double delaySeconds = 1, double afterDelaySeconds = 0, bool isDoubleClick = false)
         {
 
 

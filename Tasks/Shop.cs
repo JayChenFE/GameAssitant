@@ -16,7 +16,7 @@ namespace GameAssitant.Tasks
 
         protected override void DoTask()
         {
-            MouseAction.Click(3, "商店","日常商店", "免费刷新", "商店空白", "免费刷新", "商店空白", "回退");
+            MouseAction.Click(1.5, "商店", "日常商店", "免费刷新", "中上", "免费刷新", "中上", "回退");
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using GameAssistant;
+using GameAssistant.Configs;
 using System;
 using System.Windows.Forms;
 

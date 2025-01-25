@@ -17,17 +17,18 @@ namespace GameAssitant.Tasks
 
         protected override void DoTask()
         {
-            MouseAction.Click("帮派", 3, 2);
+           
 
 
             for (int i = 0; i < 3; i++)
             {
+                MouseAction.Click("帮派", 3, 2);
                 MouseAction.Click(3, "帮派试炼", "帮派试炼挑战");
                 MouseAction.Click("帮派试炼购买", 3);
 
                 MouseAction.Click(3, "帮派试炼战斗");
                 MouseAction.Click("帮派试炼快进", 1, 6);
-                MouseAction.Click(3, "帮派试炼保存", "帮派试炼确定", "帮派试炼回退");
+                MouseAction.Click(3, "帮派试炼保存", "帮派试炼确定", "帮派试炼回退","主城","主城");
             }
 
         }
