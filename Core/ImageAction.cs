@@ -32,19 +32,17 @@ namespace GameAssistant
             }
         }
 
-        public static Point FindAndClickImageAndWait(string imageNameWithoutExtension, Func<bool> isScreenUpdated = null, int timeoutSeconds = 5)
+        /// <summary>
+        /// 查找并点击图片，等待屏幕更新。
+        /// </summary>
+        public static Point FindAndClickImageAndWait(string imageName, Func<bool> isScreenUpdated = null, int timeoutSeconds = 5)
         {
-            return FindAndClickImage(imageNameWithoutExtension, 1, false, isScreenUpdated, timeoutSeconds);
+            return FindAndClickImage(imageName, 1, false, isScreenUpdated, timeoutSeconds);
         }
 
         /// <summary>
         /// 点击指定图片并等待目标图片出现。
         /// </summary>
-        /// <param name="clickImageName">需要点击的图片名称（不包含扩展名）。</param>
-        /// <param name="waitForImageName">等待出现的目标图片名称（不包含扩展名）。</param>
-        /// <param name="delaySeconds">点击前的延迟时间（秒）。</param>
-        /// <param name="timeoutSeconds">等待目标图片出现的超时时间（秒）。</param>
-        /// <returns>目标图片是否在屏幕上出现。</returns>
         public static bool ClickImageAndThenAnother(
             string clickImageName,
             string waitForImageName,
@@ -53,14 +51,7 @@ namespace GameAssistant
         {
             Logger.Log($"尝试点击图片：{clickImageName} 并等待图片：{waitForImageName} 出现");
 
-            // 点击图片
-            var clickResult = FindAndClickImage(
-                clickImageName,
-                delaySeconds,
-                false,
-                isScreenUpdated: () => IsImagePresent(waitForImageName),
-                timeoutSeconds
-            );
+            var clickResult = FindAndClickImage(clickImageName, delaySeconds, false, () => IsImagePresent(waitForImageName), timeoutSeconds);
 
             if (clickResult == Point.Empty)
             {
@@ -68,31 +59,21 @@ namespace GameAssistant
                 return false;
             }
 
-            // 判断目标图片是否出现
-            bool targetImagePresent = IsImagePresent(waitForImageName);
-            if (targetImagePresent)
+            if (IsImagePresent(waitForImageName))
             {
                 FindAndClickImage(waitForImageName);
-            }
-            else
-            {
-                Logger.Log($"目标图片未出现：{waitForImageName}");
+                return true;
             }
 
-            return targetImagePresent;
+            Logger.Log($"目标图片未出现：{waitForImageName}");
+            return false;
         }
 
         /// <summary>
-        /// 查找指定名称的图片并点击。
+        /// 查找并点击指定名称的图片。
         /// </summary>
-        /// <param name="imageNameWithoutExtension">图片名称（不包含扩展名）。</param>
-        /// <param name="delaySeconds">点击前的延迟时间（秒）。</param>
-        /// <param name="isDoubleClick">是否双击。</param>
-        /// <param name="isScreenUpdated">屏幕更新条件函数。</param>
-        /// <param name="timeoutSeconds">等待屏幕更新的超时时间（秒）。</param>
-        /// <returns>点击的位置，如果未找到返回 Point.Empty。</returns>
         public static Point FindAndClickImage(
-            string imageNameWithoutExtension,
+            string imageName,
             int delaySeconds = 1,
             bool isDoubleClick = false,
             Func<bool> isScreenUpdated = null,
@@ -100,28 +81,19 @@ namespace GameAssistant
         {
             SleepHelper.DelayExecution(delaySeconds);
 
-            string imagePath = GetImagePath(imageNameWithoutExtension);
+            string imagePath = GetImagePath(imageName);
             if (string.IsNullOrEmpty(imagePath)) return Point.Empty;
 
-            var location = ImageRecognition.FindImageOnScreen(imagePath);
+            var location = ImageRecognition.FindImageOnScreen(imageName);
             if (location == Point.Empty)
             {
-                Logger.Log($"未找到图片：{imageNameWithoutExtension}");
+                Logger.Log($"未找到图片：{imageName}");
                 return Point.Empty;
             }
 
-            // 点击图片
-            if (isDoubleClick)
-            {
-                MouseAutomation.DoubleClickAt(location);
-            }
-            else
-            {
-                MouseAutomation.ClickAt(location);
-            }
-            Logger.Log($"找到并点击了图片：{imageNameWithoutExtension}, 坐标：({location.X}, {location.Y})");
+            PerformClick(location, isDoubleClick);
+            Logger.Log($"找到并点击了图片：{imageName}, 坐标：({location.X}, {location.Y})");
 
-            // 等待屏幕更新
             if (isScreenUpdated != null)
             {
                 WaitHelper.WaitForCondition(isScreenUpdated, timeoutSeconds);
@@ -133,26 +105,15 @@ namespace GameAssistant
         /// <summary>
         /// 检查屏幕上是否存在指定名称的图片。
         /// </summary>
-        /// <param name="imageNameWithoutExtension">图片名称（不包括扩展名）。</param>
-        /// <returns>如果图片存在于屏幕上，返回 true；否则返回 false。</returns>
-        public static bool IsImagePresent(string imageNameWithoutExtension)
+        public static bool IsImagePresent(string imageName)
         {
-            string imagePath = GetImagePath(imageNameWithoutExtension);
-            if (string.IsNullOrEmpty(imagePath)) return false;
-
-            var location = ImageRecognition.FindImageOnScreen(imagePath);
-            return location != Point.Empty;
+            return ImageRecognition.FindImageOnScreen(imageName) != Point.Empty;
         }
-
-        /// <summary>
-
 
         /// <summary>
         /// 获取图片的完整路径。
         /// </summary>
-        /// <param name="imageNameWithoutExtension">图片名称（不包括扩展名）。</param>
-        /// <returns>图片完整路径，如果不存在则返回 null。</returns>
-        private static string GetImagePath(string imageNameWithoutExtension)
+        public static string GetImagePath(string imageNameWithoutExtension)
         {
             string imageFolderPath = Config.Instance.ImageFolderPath;
             if (!Directory.Exists(imageFolderPath))
@@ -177,6 +138,21 @@ namespace GameAssistant
             }
 
             return imagePath;
+        }
+
+        /// <summary>
+        /// 执行鼠标点击操作（单击或双击）。
+        /// </summary>
+        private static void PerformClick(Point location, bool isDoubleClick)
+        {
+            if (isDoubleClick)
+            {
+                MouseAutomation.DoubleClickAt(location);
+            }
+            else
+            {
+                MouseAutomation.ClickAt(location);
+            }
         }
     }
 }

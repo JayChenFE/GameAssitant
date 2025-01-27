@@ -22,7 +22,7 @@ namespace GameAssitant
             {
 
                 // 获取输入框中的图片名称
-                string imageName = txtImageName.Text.Trim() + ".png";
+                string imageName = txtImageName.Text.Trim();
                 if (string.IsNullOrEmpty(imageName))
                 {
                     MessageBox.Show("请输入图片名称！");
@@ -31,7 +31,7 @@ namespace GameAssitant
 
                 // 拼接图片路径
                 string imageFolderPath = Config.Instance.ImageFolderPath; // 从配置中获取资源路径
-                string imagePath = Path.Combine(imageFolderPath, imageName);
+                string imagePath = Path.Combine(imageFolderPath, imageName + ".png");
 
                 // 检查文件是否存在
                 if (!File.Exists(imagePath))
@@ -41,7 +41,7 @@ namespace GameAssitant
                 }
 
                 // 尝试查找图片
-                var location = ImageRecognition.FindImageOnScreen(imagePath);
+                var location = ImageRecognition.FindImageOnScreen(imageName);
                 if (location != Point.Empty)
                 {
                     MessageBox.Show($"找到图片！位置：({location.X}, {location.Y})");
@@ -55,12 +55,10 @@ namespace GameAssitant
 
         private async void btnTestOther_Click(object sender, EventArgs e)
         {
-            var items = clbxTask.CheckedItems.Cast<string>().ToList();
             await Task.Run(() =>
              {
-                 MouseAction.Click("腾蛇");
-
-                 MouseAction.Click(4, "兽墟挑战", "确定购买", "空白", "主城");
+                 (string text, _) = OcrUtil.RecognizeTextFromScreen(918, 358, 961, 396);
+                 MessageBox.Show($"悬赏积分 {text}");
              });
         }
     }
