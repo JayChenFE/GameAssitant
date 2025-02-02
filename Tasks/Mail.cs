@@ -18,7 +18,7 @@ namespace GameAssistant
 
         protected override void DoTask()
         {
-            MouseAction.Click(1.5, "邮件", "邮件一键领取", "邮件空白", "删除已读", "邮件确定","主城");
+            MouseAction.Click(1.5, "邮件", "邮件一键领取", "主城", "主城");
 
             //MouseAction.Click("系统邮件", 2, 1);
 

@@ -1,12 +1,11 @@
-﻿using System;
+﻿using GameAssitant.Configs;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using YamlDotNet.Serialization.NamingConventions;
-using YamlDotNet.Serialization;
-using GameAssitant.Configs;
-using System.Security.Principal;
 using System.Threading;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace GameAssistant.Configs
 {
@@ -14,18 +13,17 @@ namespace GameAssistant.Configs
     {
         public bool IsForce { get; set; }
         public Dictionary<string, Point> Coordinates { get; private set; }
+        public Dictionary<string, Rectangle> Areas { get; private set; } = new Dictionary<string, Rectangle>();
         public ScaleConfig Scale { get; private set; }
-
         public string ImageFolderPath { get; private set; }
-
         public List<Account> Accounts { get; set; }
-
         public List<Account> SelectedAccounts { get; set; }
+        public List<string> SelectedTaskNames { get; set; }
 
-        public List<String> SelectedTaskNames { get; set; }
-
-        private static ReaderWriterLockSlim rwLock = new ReaderWriterLockSlim();
+        // 线程安全处理
+        private static readonly ReaderWriterLockSlim rwLock = new ReaderWriterLockSlim();
         private Account _currentAccount;
+
         public Account CurrentAccount
         {
             get
@@ -54,107 +52,19 @@ namespace GameAssistant.Configs
             }
         }
 
-        private static readonly string ResourcePath = "C:\\resource";
+        // 配置文件路径
+        private const string ResourcePath = "C:\\resource";
         private static readonly string CoordinateFilePath = Path.Combine(ResourcePath, "coordinate.yaml");
+        private static readonly string AreaFilePath = Path.Combine(ResourcePath, "area.yaml");
         private static readonly string ScaleFilePath = Path.Combine(ResourcePath, "scale.yaml");
+        private static readonly string AccountFilePath = Path.Combine(ResourcePath, "account.yaml");
+
         private static Config _instance;
-
-        public List<Account> GetAccountsToExecute()
-        {
-            return (SelectedAccounts != null && SelectedAccounts.Count > 0) ? SelectedAccounts : Accounts;
-        }
-
-
-
-
-
-        /// <summary>
-        /// 加载所有配置。
-        /// </summary>
-        public static Config LoadConfig()
-        {
-            if (!Directory.Exists(ResourcePath))
-            {
-                throw new DirectoryNotFoundException($"资源目录未找到: {ResourcePath}");
-            }
-            Config config = new Config();
-            config.Coordinates = LoadYamlCoordinates(CoordinateFilePath);
-            config.Scale = LoadYaml<ScaleConfig>(ScaleFilePath);
-            config.Accounts = LoadYaml<List<Account>>(Path.Combine(ResourcePath, "account.yaml"));
-            config.ImageFolderPath = Path.Combine(ResourcePath, "images");
-
-
-
-            return config;
-        }
-
-        private static Dictionary<string, Point> LoadYamlCoordinates(string filePath)
-        {
-            if (!File.Exists(filePath))
-            {
-                throw new FileNotFoundException($"配置文件未找到: {filePath}");
-            }
-
-            var yaml = File.ReadAllText(filePath);
-            var deserializer = new DeserializerBuilder()
-                .WithNamingConvention(CamelCaseNamingConvention.Instance)
-                .Build();
-
-            // 解析为 Dictionary<string, string>
-            var rawCoordinates = deserializer.Deserialize<Dictionary<string, string>>(yaml);
-
-            // 转换为 Dictionary<string, Point>
-            var coordinates = new Dictionary<string, Point>();
-            foreach (var entry in rawCoordinates)
-            {
-                // 使用正则表达式匹配两个数字，忽略中间多余的空格
-                var values = entry.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 2 &&
-                    int.TryParse(values[0], out int x) &&
-                    int.TryParse(values[1], out int y))
-                {
-                    coordinates[entry.Key] = new Point(x, y);
-                }
-                else
-                {
-                    throw new FormatException($"无效的坐标格式: {entry.Value}");
-                }
-            }
-
-            return coordinates;
-        }
-
-
-        /// <summary>
-        /// 通用的 YAML 加载方法。
-        /// </summary>
-        /// <typeparam name="T">目标类型。</typeparam>
-        /// <param name="filePath">YAML 文件路径。</param>
-        /// <returns>解析后的对象。</returns>
-        private static T LoadYaml<T>(string filePath)
-        {
-            try
-            {
-                if (!File.Exists(filePath))
-                {
-                    throw new FileNotFoundException($"配置文件未找到: {filePath}");
-                }
-
-                var yaml = File.ReadAllText(filePath);
-                var deserializer = new DeserializerBuilder()
-                    .WithNamingConvention(CamelCaseNamingConvention.Instance)
-                    .Build();
-
-                return deserializer.Deserialize<T>(yaml);
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException($"解析 YAML 文件失败: {filePath}", ex);
-            }
-        }
-
         private static readonly object LockObject = new object();
 
+        /// <summary>
+        /// 获取 Config 实例（单例模式）
+        /// </summary>
         public static Config Instance
         {
             get
@@ -173,6 +83,144 @@ namespace GameAssistant.Configs
             }
         }
 
+        /// <summary>
+        /// 获取要执行的账户列表
+        /// </summary>
+        public List<Account> GetAccountsToExecute()
+        {
+            return SelectedAccounts != null && SelectedAccounts.Count > 0 ? SelectedAccounts : Accounts;
+        }
 
+        /// <summary>
+        /// 加载配置文件
+        /// </summary>
+        private static Config LoadConfig()
+        {
+            ValidateResourcePath();
+
+            Config config = new Config();
+            config.Scale = LoadYaml<ScaleConfig>(ScaleFilePath);
+            config.Coordinates = LoadYamlCoordinates(CoordinateFilePath);
+            config.Areas = LoadYamlAreas(AreaFilePath, config.Scale);
+            config.Accounts = LoadYaml<List<Account>>(AccountFilePath);
+            config.ImageFolderPath = Path.Combine(ResourcePath, "images");
+
+
+            return config;
+        }
+
+        /// <summary>
+        /// 校验资源路径是否存在
+        /// </summary>
+        private static void ValidateResourcePath()
+        {
+            if (!Directory.Exists(ResourcePath))
+            {
+                throw new DirectoryNotFoundException($"资源目录未找到: {ResourcePath}");
+            }
+        }
+
+        /// <summary>
+        /// 解析 YAML 文件为 Dictionary<string, Point>
+        /// </summary>
+        private static Dictionary<string, Point> LoadYamlCoordinates(string filePath)
+        {
+            ValidateFileExists(filePath);
+
+            var rawCoordinates = LoadYaml<Dictionary<string, string>>(filePath);
+            var coordinates = new Dictionary<string, Point>();
+
+            foreach (var entry in rawCoordinates)
+            {
+                var values = entry.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (values.Length == 2 &&
+                    int.TryParse(values[0], out int x) &&
+                    int.TryParse(values[1], out int y))
+                {
+                    coordinates[entry.Key] = new Point(x, y);
+                }
+                else
+                {
+                    throw new FormatException($"无效的坐标格式: {entry.Key} -> {entry.Value}");
+                }
+            }
+
+            return coordinates;
+        }
+
+        /// <summary>
+        /// 解析 YAML 文件为 Dictionary<string, Rectangle>
+        /// </summary>
+        private static Dictionary<string, Rectangle> LoadYamlAreas(string filePath, ScaleConfig scale)
+        {
+            ValidateFileExists(filePath);
+
+            var rawCoordinates = LoadYaml<Dictionary<string, string>>(filePath);
+            var areas = new Dictionary<string, Rectangle>();
+
+            foreach (var entry in rawCoordinates)
+            {
+                var values = entry.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (values.Length == 4 &&
+                    int.TryParse(values[0], out int x1) &&
+                    int.TryParse(values[1], out int y1) &&
+                    int.TryParse(values[2], out int x2) &&
+                    int.TryParse(values[3], out int y2))
+                {
+                    Point originalTopLeft = new Point(x1, y1);
+                    Point originalBottomRight = new Point(x2, y2);
+
+                    Point scaledTopLeft = scale.CalculateScaledPoint(originalTopLeft);
+                    Point scaledBottomRight = scale.CalculateScaledPoint(originalBottomRight);
+
+                    // 修正坐标
+                    int correctedX1 = Math.Min(scaledTopLeft.X, scaledBottomRight.X);
+                    int correctedY1 = Math.Min(scaledTopLeft.Y, scaledBottomRight.Y);
+                    int correctedX2 = Math.Max(scaledTopLeft.X, scaledBottomRight.X);
+                    int correctedY2 = Math.Max(scaledTopLeft.Y, scaledBottomRight.Y);
+
+                    areas[entry.Key] = new Rectangle(correctedX1, correctedY1, correctedX2 - correctedX1, correctedY2 - correctedY1);
+                }
+                else
+                {
+                    throw new FormatException($"无效的坐标格式: {entry.Key} -> {entry.Value}，应为 '50 100 200 300'的形式");
+                }
+            }
+
+            return areas;
+        }
+
+        /// <summary>
+        /// 通用的 YAML 加载方法
+        /// </summary>
+        private static T LoadYaml<T>(string filePath)
+        {
+            ValidateFileExists(filePath);
+
+            try
+            {
+                var yaml = File.ReadAllText(filePath);
+                var deserializer = new DeserializerBuilder()
+                    .WithNamingConvention(CamelCaseNamingConvention.Instance)
+                    .Build();
+
+                return deserializer.Deserialize<T>(yaml);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"解析 YAML 文件失败: {filePath}", ex);
+            }
+        }
+
+        /// <summary>
+        /// 校验文件是否存在
+        /// </summary>
+        private static void ValidateFileExists(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                throw new FileNotFoundException($"配置文件未找到: {filePath}");
+            }
+        }
     }
 }
