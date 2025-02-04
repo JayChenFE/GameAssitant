@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using YamlDotNet.Core;
 
-namespace GameAssitant.Tasks
+namespace GameAssitant.Applications.Tasks
 {
     /// <summary>
     /// 远征兽墟任务

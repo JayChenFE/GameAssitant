@@ -1,7 +1,7 @@
 ﻿using GameAssistant;
 using GameAssitant.Utils;
 
-namespace GameAssitant.Tasks
+namespace GameAssitant.Applications.Tasks
 {
     public class DailyRace : TaskBase
     {

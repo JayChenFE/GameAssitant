@@ -36,7 +36,8 @@ namespace GameAssistant
         }
 
 
-        public static void ClickPoint(Point point, double delaySeconds = 1, double afterDelaySeconds = 0, bool isDoubleClick = false) {
+        public static void ClickPoint(Point point, double delaySeconds = 1, double afterDelaySeconds = 0, bool isDoubleClick = false)
+        {
             SleepHelper.DelayExecution(delaySeconds);
 
             if (isDoubleClick)
@@ -90,6 +91,41 @@ namespace GameAssistant
                 SleepHelper.DelayExecution(afterDelaySeconds);
 
                 Logger.Log($"点击了{imageName} 对应的坐标: ({point.X}, {point.Y})");
+            }
+            else
+            {
+                Logger.Log($"未找到 {imageName} 的坐标配置");
+            }
+        }
+
+
+        public static void ClickWithUpdate(string imageName, Func<bool> isScreenUpdated, int timeoutSeconds, int pollIntervalMilliseconds)
+        {
+
+            if (string.IsNullOrEmpty(imageName))
+            {
+                throw new ArgumentException("图片名称不能为空", nameof(imageName));
+            }
+
+
+            // 加载坐标配置
+            var coordinates = Config.Instance.Coordinates;
+            var scaleConfig = Config.Instance.Scale;
+
+            if (coordinates.ContainsKey(imageName))
+            {
+                var point = coordinates[imageName];
+                var scaledPoint = scaleConfig.CalculateScaledPoint(point);
+
+                MouseAutomation.ClickAt(scaledPoint);
+
+
+                Logger.Log($"点击了{imageName} 对应的坐标: ({point.X}, {point.Y})");
+
+                if (isScreenUpdated != null)
+                {
+                    WaitHelper.WaitForCondition(isScreenUpdated, timeoutSeconds, pollIntervalMilliseconds);
+                }
             }
             else
             {

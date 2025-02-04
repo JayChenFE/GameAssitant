@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameAssitant.Tasks
+namespace GameAssitant.Applications.Tasks
 {
     public class Otherworld : TaskBase
     {

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameAssitant.Tasks
+namespace GameAssitant.Applications.Tasks
 {
     public class Talk : TaskBase
     {
@@ -17,8 +17,9 @@ namespace GameAssitant.Tasks
 
         protected override void DoTask()
         {
-            MouseAction.Click("聊天", afterDelaySeconds: 1);
-            ImageAction.FindAndClickImage("帮派聊天", delaySeconds: 0);
+            MouseAction.Click(1.5,"聊天", "聊天-右");
+            MouseAutomation.DragMouse(200, MouseAutomation.Direction.Left);
+            MouseAction.Click("聊天-帮派",afterDelaySeconds:1);
             MouseAction.Click(1.5, "聊天-表情", "哦");
         }
     }
