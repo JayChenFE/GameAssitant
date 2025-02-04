@@ -1,4 +1,5 @@
 ﻿using Emgu.CV;
+using GameAssistant.Configs;
 using System;
 using System.Drawing;
 using Tesseract;
@@ -9,7 +10,21 @@ namespace GameAssistant.Utils
     {
 
 
-        public static (string text, Rectangle position) RecognizeTextFromScreen(int topLeftX, int topLeftY, int bottomRightX, int bottomRightY)
+        public static (string text, Rectangle position) RecognizeText(string areaName, string whiteList = null)
+        {
+
+            if (!Config.Instance.Areas.ContainsKey(areaName))
+            {
+                throw new ArgumentException($"Area '{areaName}' not found in configuration.");
+            }
+
+            Rectangle screenRegion = Config.Instance.Areas[areaName];
+
+            return RecognizeText(screenRegion, whiteList);
+        }
+
+
+        public static (string text, Rectangle position) RecognizeText(int topLeftX, int topLeftY, int bottomRightX, int bottomRightY, string whiteList = null)
         {
             // 计算屏幕区域
             Rectangle screenRegion = new Rectangle(
@@ -19,11 +34,11 @@ namespace GameAssistant.Utils
                 bottomRightY - topLeftY
             );
 
-            return RecognizeTextFromScreen(screenRegion);
+            return RecognizeText(screenRegion, whiteList);
         }
 
 
-        public static (string text, Rectangle position) RecognizeTextFromScreen(Rectangle screenRegion)
+        public static (string text, Rectangle position) RecognizeText(Rectangle screenRegion, string whiteList = null)
         {
             // 捕获屏幕区域
             using (Bitmap bitmap = new Bitmap(screenRegion.Width, screenRegion.Height))
@@ -32,12 +47,15 @@ namespace GameAssistant.Utils
                 {
                     g.CopyFromScreen(screenRegion.Location, Point.Empty, screenRegion.Size);
                 }
-                bitmap.Save("test.png");
-                //Bitmap bitmap1 = PreprocessImage(bitmap);
                 // 初始化 Tesseract OCR 引擎
                 using (var engine = new TesseractEngine(@"C:\Program Files\Tesseract-OCR\tessdata", "chi_sim", EngineMode.Default))
                 {
-                    engine.SetVariable("tessedit_char_whitelist", "0123456789 /");
+
+                    if (!string.IsNullOrEmpty(whiteList))
+                    {
+                        engine.SetVariable("tessedit_char_whitelist", whiteList);
+                    }
+
                     using (var img = PixConverter.ToPix(bitmap))
                     {
                         using (var page = engine.Process(img))

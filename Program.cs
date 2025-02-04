@@ -1,7 +1,5 @@
-﻿using GameAssistant;
-using GameAssistant.Configs;
+﻿using GameAssistant.Configs;
 using System;
-using System.Windows.Forms;
 
 namespace GameAssitant
 {
@@ -16,11 +14,9 @@ namespace GameAssitant
             // 加载配置
             var config = Config.Instance;
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
-
-           
+            System.Windows.Forms.Application.EnableVisualStyles();
+            System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+            System.Windows.Forms. Application.Run(new MainForm());
         }
     }
 }

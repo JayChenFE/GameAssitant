@@ -1,15 +1,6 @@
-﻿using GameAssistant.Configs;
-using GameAssistant.Utils;
-using GameAssistant;
+﻿using GameAssistant;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using GameAssitant.Tasks;
+using GameAssitant.Applications.Tasks;
 
 namespace GameAssitant
 {
@@ -25,7 +16,8 @@ namespace GameAssitant
 				typeof(Beast),            // 帮派圣兽
 				typeof(Talk),             // 帮派聊天
 				typeof(BonusForRecharge), // 充值免费钻石
-				//typeof(DailyRace),        // 每日跨服竞技赛
+				typeof(Arena),            // 本服竞技场
+                typeof(DailyRace),        // 每日跨服竞技赛
 				typeof(EquipmentCrafting),// 合成装备
 				typeof(Shop),             // 日常商店
 				typeof(GangChanllenge),    // 帮派试炼

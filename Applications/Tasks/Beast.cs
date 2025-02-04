@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using YamlDotNet.Core;
 
-namespace GameAssitant.Tasks
+namespace GameAssitant.Applications.Tasks
 {
     /// <summary>
     /// 帮派圣兽任务

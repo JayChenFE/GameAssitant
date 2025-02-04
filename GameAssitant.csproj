@@ -128,53 +128,55 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configs\Account.cs" />
-    <Compile Include="Configs\ScaleConfig.cs" />
-    <Compile Include="Core\MouseAction.cs" />
-    <Compile Include="Core\MouseAutomation.cs" />
-    <Compile Include="Configs\Config.cs" />
-    <Compile Include="Core\ImageAction.cs" />
-    <Compile Include="Core\TaskBase.cs" />
-    <Compile Include="Core\TaskManager.cs" />
-    <Compile Include="MainForm.Task.cs">
+    <Compile Include="Applications\Tasks\Arena.cs" />
+    <Compile Include="Core\Const.cs" />
+    <Compile Include="Domain\Account.cs" />
+    <Compile Include="Domain\ScaleConfig.cs" />
+    <Compile Include="Core\Automation\Actions\MouseAction.cs" />
+    <Compile Include="Core\Automation\Services\MouseAutomation.cs" />
+    <Compile Include="Infrastructure\Config.cs" />
+    <Compile Include="Core\Automation\Actions\ImageAction.cs" />
+    <Compile Include="Core\TaskSystem\TaskBase.cs" />
+    <Compile Include="Core\TaskSystem\TaskManager.cs" />
+    <Compile Include="Applications\MainForm\MainForm.Task.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Test.cs">
+    <Compile Include="Applications\MainForm\MainForm.Test.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tasks\Beast.cs" />
-    <Compile Include="Tasks\BeastChangllenge.cs" />
-    <Compile Include="Tasks\BonusForRecharge.cs" />
-    <Compile Include="Tasks\DailyRace.cs" />
-    <Compile Include="Tasks\DailyTask.cs" />
-    <Compile Include="Tasks\EquipmentCrafting.cs" />
-    <Compile Include="Tasks\ExpeditionBeast.cs" />
-    <Compile Include="Tasks\FatefulGame.cs" />
-    <Compile Include="Tasks\HallOfFate.cs" />
-    <Compile Include="Tasks\Otherworld.cs" />
-    <Compile Include="Tasks\Pet.cs" />
-    <Compile Include="Tasks\Shop.cs" />
-    <Compile Include="Tasks\SummonHero.cs" />
-    <Compile Include="Tasks\Talk.cs" />
-    <Compile Include="Tasks\GangChallenge.cs" />
-    <Compile Include="Tasks\Mail.cs" />
-    <Compile Include="Tasks\Maid.cs" />
-    <Compile Include="Utils\DateTimeUtil.cs" />
-    <Compile Include="Utils\ImageHelper.cs" />
-    <Compile Include="Core\ImageRecognition.cs" />
-    <Compile Include="MainForm.cs">
+    <Compile Include="Applications\Tasks\Beast.cs" />
+    <Compile Include="Applications\Tasks\BeastChangllenge.cs" />
+    <Compile Include="Applications\Tasks\BonusForRecharge.cs" />
+    <Compile Include="Applications\Tasks\DailyRace.cs" />
+    <Compile Include="Applications\Tasks\DailyTask.cs" />
+    <Compile Include="Applications\Tasks\EquipmentCrafting.cs" />
+    <Compile Include="Applications\Tasks\ExpeditionBeast.cs" />
+    <Compile Include="Applications\Tasks\FatefulGame.cs" />
+    <Compile Include="Applications\Tasks\HallOfFate.cs" />
+    <Compile Include="Applications\Tasks\Otherworld.cs" />
+    <Compile Include="Applications\Tasks\Pet.cs" />
+    <Compile Include="Applications\Tasks\Shop.cs" />
+    <Compile Include="Applications\Tasks\SummonHero.cs" />
+    <Compile Include="Applications\Tasks\Talk.cs" />
+    <Compile Include="Applications\Tasks\GangChallenge.cs" />
+    <Compile Include="Applications\Tasks\Mail.cs" />
+    <Compile Include="Applications\Tasks\Maid.cs" />
+    <Compile Include="Infrastructure\Utils\DateTimeUtil.cs" />
+    <Compile Include="Infrastructure\Utils\ImageHelper.cs" />
+    <Compile Include="Core\Automation\Services\ImageRecognition.cs" />
+    <Compile Include="Applications\MainForm\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="Applications\MainForm\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils\Logger.cs" />
-    <Compile Include="Utils\OcrUtil.cs" />
-    <Compile Include="Utils\SleepHelper.cs" />
-    <Compile Include="Utils\WaitHelper.cs" />
-    <EmbeddedResource Include="MainForm.resx">
+    <Compile Include="Infrastructure\Utils\Logger.cs" />
+    <Compile Include="Infrastructure\Utils\OcrUtil.cs" />
+    <Compile Include="Infrastructure\Utils\SleepHelper.cs" />
+    <Compile Include="Infrastructure\Utils\WaitHelper.cs" />
+    <EmbeddedResource Include="Applications\MainForm\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

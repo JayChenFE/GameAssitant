@@ -20,9 +20,10 @@ namespace GameAssitant.Configs
 
         public string Role { get; set; }
 
-        public List<String> TaskNames { get; set; }
+        //public List<string> TaskNames { get; set; }
 
-
+        public string Task { get; set; }
+        public string Reward { get; set; }
         public override string ToString()
         {
             return $"{Group}-{Name}-{Icon}";

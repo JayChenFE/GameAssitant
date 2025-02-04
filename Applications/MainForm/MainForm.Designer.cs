@@ -34,7 +34,7 @@
             this.txtInput = new System.Windows.Forms.TextBox();
             this.btnTestOther = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabAssistant = new System.Windows.Forms.TabPage();
+            this.tabTask = new System.Windows.Forms.TabPage();
             this.cbxAllAccounts = new System.Windows.Forms.CheckBox();
             this.cbxAllTasks = new System.Windows.Forms.CheckBox();
             this.cbxForce = new System.Windows.Forms.CheckBox();
@@ -43,18 +43,20 @@
             this.lbTask = new System.Windows.Forms.Label();
             this.clbxTask = new System.Windows.Forms.CheckedListBox();
             this.cbxMultiAccount = new System.Windows.Forms.CheckBox();
-            this.tabConfig = new System.Windows.Forms.TabPage();
+            this.tabAccount = new System.Windows.Forms.TabPage();
             this.label2 = new System.Windows.Forms.Label();
             this.tabTest = new System.Windows.Forms.TabPage();
+            this.tabActivity = new System.Windows.Forms.TabPage();
+            this.tabRole = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
-            this.tabAssistant.SuspendLayout();
-            this.tabConfig.SuspendLayout();
+            this.tabTask.SuspendLayout();
+            this.tabAccount.SuspendLayout();
             this.tabTest.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_start
             // 
-            this.btn_start.Location = new System.Drawing.Point(61, 578);
+            this.btn_start.Location = new System.Drawing.Point(65, 579);
             this.btn_start.Name = "btn_start";
             this.btn_start.Size = new System.Drawing.Size(87, 23);
             this.btn_start.TabIndex = 0;
@@ -98,38 +100,40 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabAssistant);
-            this.tabControl1.Controls.Add(this.tabConfig);
+            this.tabControl1.Controls.Add(this.tabTask);
+            this.tabControl1.Controls.Add(this.tabActivity);
+            this.tabControl1.Controls.Add(this.tabRole);
+            this.tabControl1.Controls.Add(this.tabAccount);
             this.tabControl1.Controls.Add(this.tabTest);
             this.tabControl1.Location = new System.Drawing.Point(-5, -2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(242, 638);
+            this.tabControl1.Size = new System.Drawing.Size(253, 638);
             this.tabControl1.TabIndex = 5;
             // 
-            // tabAssistant
+            // tabTask
             // 
-            this.tabAssistant.Controls.Add(this.cbxAllAccounts);
-            this.tabAssistant.Controls.Add(this.cbxAllTasks);
-            this.tabAssistant.Controls.Add(this.cbxForce);
-            this.tabAssistant.Controls.Add(this.laAccount);
-            this.tabAssistant.Controls.Add(this.clbxAccount);
-            this.tabAssistant.Controls.Add(this.lbTask);
-            this.tabAssistant.Controls.Add(this.clbxTask);
-            this.tabAssistant.Controls.Add(this.cbxMultiAccount);
-            this.tabAssistant.Controls.Add(this.btn_start);
-            this.tabAssistant.Location = new System.Drawing.Point(4, 22);
-            this.tabAssistant.Name = "tabAssistant";
-            this.tabAssistant.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAssistant.Size = new System.Drawing.Size(234, 612);
-            this.tabAssistant.TabIndex = 0;
-            this.tabAssistant.Text = "辅助";
-            this.tabAssistant.UseVisualStyleBackColor = true;
+            this.tabTask.Controls.Add(this.cbxAllAccounts);
+            this.tabTask.Controls.Add(this.cbxAllTasks);
+            this.tabTask.Controls.Add(this.cbxForce);
+            this.tabTask.Controls.Add(this.laAccount);
+            this.tabTask.Controls.Add(this.clbxAccount);
+            this.tabTask.Controls.Add(this.lbTask);
+            this.tabTask.Controls.Add(this.clbxTask);
+            this.tabTask.Controls.Add(this.cbxMultiAccount);
+            this.tabTask.Controls.Add(this.btn_start);
+            this.tabTask.Location = new System.Drawing.Point(4, 22);
+            this.tabTask.Name = "tabTask";
+            this.tabTask.Padding = new System.Windows.Forms.Padding(3);
+            this.tabTask.Size = new System.Drawing.Size(245, 612);
+            this.tabTask.TabIndex = 0;
+            this.tabTask.Text = "任务";
+            this.tabTask.UseVisualStyleBackColor = true;
             // 
             // cbxAllAccounts
             // 
             this.cbxAllAccounts.AutoSize = true;
-            this.cbxAllAccounts.Location = new System.Drawing.Point(141, 352);
+            this.cbxAllAccounts.Location = new System.Drawing.Point(144, 351);
             this.cbxAllAccounts.Name = "cbxAllAccounts";
             this.cbxAllAccounts.Size = new System.Drawing.Size(90, 16);
             this.cbxAllAccounts.TabIndex = 8;
@@ -139,7 +143,7 @@
             // cbxAllTasks
             // 
             this.cbxAllTasks.AutoSize = true;
-            this.cbxAllTasks.Location = new System.Drawing.Point(139, 45);
+            this.cbxAllTasks.Location = new System.Drawing.Point(144, 45);
             this.cbxAllTasks.Name = "cbxAllTasks";
             this.cbxAllTasks.Size = new System.Drawing.Size(90, 16);
             this.cbxAllTasks.TabIndex = 7;
@@ -159,7 +163,7 @@
             // laAccount
             // 
             this.laAccount.AutoSize = true;
-            this.laAccount.Location = new System.Drawing.Point(-2, 353);
+            this.laAccount.Location = new System.Drawing.Point(3, 352);
             this.laAccount.Name = "laAccount";
             this.laAccount.Size = new System.Drawing.Size(137, 12);
             this.laAccount.TabIndex = 5;
@@ -174,13 +178,13 @@
             "路人甲"});
             this.clbxAccount.Location = new System.Drawing.Point(13, 369);
             this.clbxAccount.Name = "clbxAccount";
-            this.clbxAccount.Size = new System.Drawing.Size(196, 196);
+            this.clbxAccount.Size = new System.Drawing.Size(215, 196);
             this.clbxAccount.TabIndex = 4;
             // 
             // lbTask
             // 
             this.lbTask.AutoSize = true;
-            this.lbTask.Location = new System.Drawing.Point(1, 46);
+            this.lbTask.Location = new System.Drawing.Point(3, 45);
             this.lbTask.Name = "lbTask";
             this.lbTask.Size = new System.Drawing.Size(137, 12);
             this.lbTask.TabIndex = 3;
@@ -195,7 +199,7 @@
             "女仆"});
             this.clbxTask.Location = new System.Drawing.Point(13, 61);
             this.clbxTask.Name = "clbxTask";
-            this.clbxTask.Size = new System.Drawing.Size(196, 276);
+            this.clbxTask.Size = new System.Drawing.Size(218, 276);
             this.clbxTask.TabIndex = 2;
             // 
             // cbxMultiAccount
@@ -210,16 +214,16 @@
             this.cbxMultiAccount.Text = "开启多账号模式";
             this.cbxMultiAccount.UseVisualStyleBackColor = true;
             // 
-            // tabConfig
+            // tabAccount
             // 
-            this.tabConfig.Controls.Add(this.label2);
-            this.tabConfig.Location = new System.Drawing.Point(4, 22);
-            this.tabConfig.Name = "tabConfig";
-            this.tabConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConfig.Size = new System.Drawing.Size(234, 612);
-            this.tabConfig.TabIndex = 1;
-            this.tabConfig.Text = "配置";
-            this.tabConfig.UseVisualStyleBackColor = true;
+            this.tabAccount.Controls.Add(this.label2);
+            this.tabAccount.Location = new System.Drawing.Point(4, 22);
+            this.tabAccount.Name = "tabAccount";
+            this.tabAccount.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAccount.Size = new System.Drawing.Size(228, 612);
+            this.tabAccount.TabIndex = 1;
+            this.tabAccount.Text = "帐号";
+            this.tabAccount.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
@@ -238,24 +242,42 @@
             this.tabTest.Controls.Add(this.txtImageName);
             this.tabTest.Location = new System.Drawing.Point(4, 22);
             this.tabTest.Name = "tabTest";
-            this.tabTest.Size = new System.Drawing.Size(234, 612);
+            this.tabTest.Size = new System.Drawing.Size(245, 612);
             this.tabTest.TabIndex = 2;
             this.tabTest.Text = "测试";
             this.tabTest.UseVisualStyleBackColor = true;
+            // 
+            // tabActivity
+            // 
+            this.tabActivity.Location = new System.Drawing.Point(4, 22);
+            this.tabActivity.Name = "tabActivity";
+            this.tabActivity.Size = new System.Drawing.Size(228, 612);
+            this.tabActivity.TabIndex = 3;
+            this.tabActivity.Text = "活动";
+            this.tabActivity.UseVisualStyleBackColor = true;
+            // 
+            // tabRole
+            // 
+            this.tabRole.Location = new System.Drawing.Point(4, 22);
+            this.tabRole.Name = "tabRole";
+            this.tabRole.Size = new System.Drawing.Size(228, 612);
+            this.tabRole.TabIndex = 4;
+            this.tabRole.Text = "角色";
+            this.tabRole.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(232, 634);
+            this.ClientSize = new System.Drawing.Size(239, 634);
             this.Controls.Add(this.tabControl1);
             this.Name = "MainForm";
             this.Text = "星舰助手";
             this.tabControl1.ResumeLayout(false);
-            this.tabAssistant.ResumeLayout(false);
-            this.tabAssistant.PerformLayout();
-            this.tabConfig.ResumeLayout(false);
-            this.tabConfig.PerformLayout();
+            this.tabTask.ResumeLayout(false);
+            this.tabTask.PerformLayout();
+            this.tabAccount.ResumeLayout(false);
+            this.tabAccount.PerformLayout();
             this.tabTest.ResumeLayout(false);
             this.tabTest.PerformLayout();
             this.ResumeLayout(false);
@@ -270,8 +292,8 @@
         private System.Windows.Forms.TextBox txtInput;
         private System.Windows.Forms.Button btnTestOther;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabAssistant;
-        private System.Windows.Forms.TabPage tabConfig;
+        private System.Windows.Forms.TabPage tabTask;
+        private System.Windows.Forms.TabPage tabAccount;
         private System.Windows.Forms.TabPage tabTest;
         private System.Windows.Forms.CheckBox cbxMultiAccount;
         private System.Windows.Forms.CheckedListBox clbxTask;
@@ -282,6 +304,8 @@
         private System.Windows.Forms.CheckBox cbxForce;
         private System.Windows.Forms.CheckBox cbxAllAccounts;
         private System.Windows.Forms.CheckBox cbxAllTasks;
+        private System.Windows.Forms.TabPage tabActivity;
+        private System.Windows.Forms.TabPage tabRole;
     }
 }
 

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameAssitant.Tasks
+namespace GameAssitant.Applications.Tasks
 {
     /// <summary>
     /// 天命棋局任务
