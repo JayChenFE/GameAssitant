@@ -1,14 +1,13 @@
 ﻿using GameAssistant.Configs;
-using GameAssistant.Utils;
 using GameAssistant;
 using System;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using GameAssitant.Core;
 using System.Text.RegularExpressions;
 using System.Threading;
+using GameAssitant.Infrastructure.Utils;
 
 namespace GameAssitant
 {

@@ -1,5 +1,5 @@
 ﻿using GameAssistant;
-using GameAssitant.Utils;
+using GameAssitant.Infrastructure.Utils;
 
 namespace GameAssitant.Applications.Tasks
 {

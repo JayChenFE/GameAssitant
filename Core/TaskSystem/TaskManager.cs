@@ -1,6 +1,6 @@
 ﻿using GameAssistant.Configs;
-using GameAssistant.Utils;
-using GameAssitant.Configs;
+using GameAssitant.Infrastructure.Utils;
+using GameAssitant.Domain;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

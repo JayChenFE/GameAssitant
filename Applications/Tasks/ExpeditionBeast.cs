@@ -1,5 +1,5 @@
 ﻿using GameAssistant;
-using GameAssistant.Utils;
+using GameAssitant.Infrastructure.Utils;
 using System;
 using System.Collections.Generic;
 using YamlDotNet.Core;

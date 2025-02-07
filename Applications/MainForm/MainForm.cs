@@ -1,8 +1,8 @@
 ﻿using GameAssistant
     ;
 using GameAssistant.Configs;
-using GameAssistant.Utils;
-using GameAssitant.Configs;
+using GameAssitant.Domain;
+using GameAssitant.Infrastructure.Utils;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -18,9 +18,10 @@ namespace GameAssitant
         private readonly BindingList<string> _taskNames = new BindingList<string>();
         public MainForm()
         {
+            RegisterAllTasks();
             InitializeComponent();
             InitializeCustomComponents();
-            RegisterAllTasks();
+            
 
         }
 

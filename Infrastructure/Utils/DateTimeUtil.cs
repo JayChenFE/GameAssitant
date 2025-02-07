@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameAssitant.Utils
+namespace GameAssitant.Infrastructure.Utils
 {
     public static class DateTimeUtil
     {

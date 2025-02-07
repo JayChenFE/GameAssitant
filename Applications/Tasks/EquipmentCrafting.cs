@@ -1,4 +1,4 @@
-﻿using GameAssistant.Utils;
+﻿using GameAssitant.Infrastructure.Utils;
 using GameAssistant;
 using System;
 using System.Collections.Generic;

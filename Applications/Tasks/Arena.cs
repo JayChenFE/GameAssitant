@@ -1,8 +1,7 @@
 ﻿using GameAssistant;
-using GameAssistant.Utils;
+using GameAssitant.Infrastructure.Utils;
 using System;
 using System.Text.RegularExpressions;
-using System.Threading;
 
 namespace GameAssitant.Applications.Tasks
 {

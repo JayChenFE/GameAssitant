@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace GameAssistant.Utils
+namespace GameAssitant.Infrastructure.Utils
 {
     public static class Logger
     {

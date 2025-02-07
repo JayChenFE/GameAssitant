@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Threading;
 
-namespace GameAssistant.Utils
+namespace GameAssitant.Infrastructure.Utils
 {
     public static class WaitHelper
     {
