@@ -29,6 +29,8 @@ namespace GameAssitant.Applications.Tasks
 
         protected override void DoTask()
         {
+
+            MouseAction.Click(1.5, "帮派", "主城", "主城", "主城", "主城");
             MouseAction.Click(3, "帮派", "帮派-帮派圣兽");
 
 

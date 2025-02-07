@@ -56,18 +56,18 @@ namespace GameAssitant
         {
             await Task.Run(() =>
              {
-                 //(string text1, _) = OcrUtil.RecognizeTextFromScreen(790, 418, 966, 515);
-                 //(string text2, _) = OcrUtil.RecognizeTextFromScreen(790, 524, 966, 610);
-                 //MessageBox.Show($"第一排:{text1},第二排:{text2}");
+                 (string text1, _) = OcrUtil.RecognizeText(790, 418, 966, 515);
+                 (string text2, _) = OcrUtil.RecognizeText(790, 524, 966, 610);
+                 MessageBox.Show($"第一排:{text1},第二排:{text2}");
 
-                 //(string text1, _) = OcrUtil.RecognizeText(686, 336, 747, 384);
-                 ////(string text1, _) = OcrUtil.RecognizeTextFromScreen(702, 350, 736, 380);
-                 //var (text, _) = OcrUtil.RecognizeText("挑战次数");
-                 int count = GetChallengeCount();
-                 MessageBox.Show(count.ToString());
-                 //bbb();
-                 //battle();
-                 //aaa();
+                 ////(string text1, _) = OcrUtil.RecognizeText(686, 336, 747, 384);
+                 //////(string text1, _) = OcrUtil.RecognizeTextFromScreen(702, 350, 736, 380);
+                 ////var (text, _) = OcrUtil.RecognizeText("挑战次数");
+                 //int count = GetChallengeCount();
+                 //MessageBox.Show(count.ToString());
+                 ////bbb();
+                 ////battle();
+                 ////aaa();
 
              });
         }

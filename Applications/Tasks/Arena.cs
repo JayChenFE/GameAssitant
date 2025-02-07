@@ -126,7 +126,7 @@ namespace GameAssitant.Applications.Tasks
                 if (string.IsNullOrWhiteSpace(numbersOnly))
                 {
                     Logger.Log("未检测到有效数字");
-                    return OcrErrorCode;
+                    return 0;
                 }
 
                 return int.TryParse(numbersOnly, out int result) ? result : OcrErrorCode;
