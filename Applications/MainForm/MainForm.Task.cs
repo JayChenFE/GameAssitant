@@ -17,7 +17,7 @@ namespace GameAssitant
 				typeof(Talk),             // 帮派聊天
 				typeof(BonusForRecharge), // 充值免费钻石
 				typeof(Arena),            // 本服竞技场
-                typeof(DailyRace),        // 每日跨服竞技赛
+                //typeof(DailyRace),        // 每日跨服竞技赛
 				typeof(EquipmentCrafting),// 合成装备
 				typeof(Shop),             // 日常商店
 				typeof(GangChanllenge),    // 帮派试炼
