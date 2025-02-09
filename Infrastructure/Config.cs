@@ -102,14 +102,14 @@ namespace GameAssistant.Configs
         {
             ValidateResourcePath();
 
-            Config config = new Config();
-
-
-            config.CoordinateFilePath = Path.Combine(ResourcePath, "coordinate.yaml");
-            config.AreaFilePath = Path.Combine(ResourcePath, "area.yaml");
-            config.ScaleFilePath = Path.Combine(ResourcePath, "scale.yaml");
-            config.AccountFilePath = Path.Combine(ResourcePath, "account.yaml");
-            config.CommonFilePath = Path.Combine(ResourcePath, "common.yaml");
+            Config config = new Config
+            {
+                CoordinateFilePath = Path.Combine(ResourcePath, "coordinate.yaml"),
+                AreaFilePath = Path.Combine(ResourcePath, "area.yaml"),
+                ScaleFilePath = Path.Combine(ResourcePath, "scale.yaml"),
+                AccountFilePath = Path.Combine(ResourcePath, "account.yaml"),
+                CommonFilePath = Path.Combine(ResourcePath, "common.yaml")
+            };
 
             config.Scale = LoadYaml<ScaleConfig>(config.ScaleFilePath);
             config.Coordinates = LoadYamlCoordinates(config.CoordinateFilePath);
@@ -127,19 +127,8 @@ namespace GameAssistant.Configs
 
             foreach (var account in accounts)
             {
-                if (account.Task == null)
-                {
-                    account.Task = string.Empty;
-                }
-
-                if (account.Reward == null)
-                {
-                    account.Reward = string.Empty;
-                }
-
                 account.TaskNames = SplitAndClean(account.Task);
                 account.RewardNames = SplitAndClean(account.Reward);
-
             }
 
             return accounts;

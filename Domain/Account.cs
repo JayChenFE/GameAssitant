@@ -20,8 +20,8 @@ namespace GameAssitant.Domain
 
         public List<string> RewardNames { get; set; }
 
-        public string Task { get; set; }
-        public string Reward { get; set; }
+        public string Task { get; set; } = string.Empty;
+        public string Reward { get; set; } = string.Empty;
         public override string ToString()
         {
             return $"{Group}-{Name}-{Icon}";

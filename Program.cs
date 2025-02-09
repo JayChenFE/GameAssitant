@@ -1,4 +1,5 @@
 ﻿using GameAssistant.Configs;
+using GameAssitant.Applications.UI;
 using System;
 
 namespace GameAssitant

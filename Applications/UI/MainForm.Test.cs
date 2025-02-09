@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using GameAssitant.Infrastructure.Utils;
 
-namespace GameAssitant
+namespace GameAssitant.Applications.UI
 {
     public partial class MainForm
     {
