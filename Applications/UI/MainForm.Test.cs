@@ -5,9 +5,8 @@ using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Text.RegularExpressions;
-using System.Threading;
 using GameAssitant.Infrastructure.Utils;
+using GameAssitant.Applications.Tests;
 
 namespace GameAssitant.Applications.UI
 {
@@ -51,118 +50,72 @@ namespace GameAssitant.Applications.UI
             });
         }
 
+
+
+
+
+        private void btnTestCoordinate_Click(object sender, EventArgs e)
+        {
+            // 获取输入框中的坐标字符串
+            string coordinateText = txtTestCoordinate.Text.Trim();
+
+            // 检查输入是否为空
+            if (string.IsNullOrEmpty(coordinateText))
+            {
+                MessageBox.Show("请输入坐标！");
+                return;
+            }
+
+            // 使用空格分隔坐标
+            string[] coordinates = coordinateText.Split(' ');
+
+            // 检查坐标格式是否正确
+            if (coordinates.Length != 2)
+            {
+                MessageBox.Show("坐标格式不正确，请输入类似 '100 200' 的格式！");
+                return;
+            }
+
+            // 尝试解析 x 和 y 坐标
+            if (int.TryParse(coordinates[0].Trim(), out int x) && int.TryParse(coordinates[1].Trim(), out int y))
+            {
+                // 执行点击操作
+                var point = new Point(x, y);
+
+                var scaledPoint = Config.Instance.Scale.CalculateScaledPoint(point);
+
+                Logger.Log($"点击坐标：({x}, {y})");
+                for (int i = 0; i < 3; i++)
+                {
+                    SleepHelper.DelayExecution(1.5);
+                    MouseAction.ClickPoint(new Point(x, y));
+                }
+
+                Logger.Log($"点击缩放后坐标：({scaledPoint.X}, {scaledPoint.Y})");
+                for (int i = 0; i < 3; i++)
+                {
+                    SleepHelper.DelayExecution(1.5);
+                    MouseAction.Click(scaledPoint.X, scaledPoint.Y);
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("坐标格式不正确，请输入有效的数字！");
+            }
+        }
+
         private async void btnTestOther_Click(object sender, EventArgs e)
         {
-            await Task.Run(() =>
-             {
-                 (string text1, _) = OcrUtil.RecognizeText(790, 418, 966, 515);
-                 (string text2, _) = OcrUtil.RecognizeText(790, 524, 966, 610);
-                 MessageBox.Show($"第一排:{text1},第二排:{text2}");
-
-                 ////(string text1, _) = OcrUtil.RecognizeText(686, 336, 747, 384);
-                 //////(string text1, _) = OcrUtil.RecognizeTextFromScreen(702, 350, 736, 380);
-                 ////var (text, _) = OcrUtil.RecognizeText("挑战次数");
-                 //int count = GetChallengeCount();
-                 //MessageBox.Show(count.ToString());
-                 ////bbb();
-                 ////battle();
-                 ////aaa();
-
-             });
-        }
-
-        private void battle()
-        {
-            MouseAction.Click("开始挑战", afterDelaySeconds: 3);
-            MouseAction.ClickWithUpdate("圣兽战斗", () => ImageAction.IsImagePresent("竞技场录像"), 125, 5000);
-            MouseAction.Click("历练左下");
-        }
-
-        private void bbb()
-        {
-            if (ImageAction.IsImagePresent("三倍未选"))
+            if (cbxTestOther.SelectedItem is TestBase selectedTest)
             {
-                MouseAction.Click("三倍挑战", afterDelaySeconds: 1);
+                await Task.Run(() => selectedTest.Execute());
             }
-
-            for (int i = 0; i < 4; i++)
+            else
             {
-                MouseAction.Click("开始挑战", afterDelaySeconds: 7);
-
-                MouseAction.Click("历练左下");
-            }
-
-
-        }
-
-        private void aaa()
-        {
-
-            bool _isRunning = true;
-            int attempt = 0;
-
-            while (_isRunning && attempt < 3)
-            {
-                try
-                {
-                    int currentCount = GetChallengeCount();
-
-                    // 处理OCR识别失败的情况
-                    if (currentCount == 999)
-                    {
-                        Logger.Log("无法获取挑战次数，稍后重试...");
-                        return;
-                    }
-
-                    Logger.Log($"当前挑战次数: {currentCount} attempt:{attempt}");
-
-                    if (currentCount < 20)
-                    {
-
-
-                        // 等待次数更新（根据实际情况调整时间）
-                        Thread.Sleep(3);
-                        attempt++;
-                    }
-                    else
-                    {
-                        _isRunning = false;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Logger.Log($"循环检测异常: {ex.Message}");
-                    Thread.Sleep(5000);
-                }
-            }
-
-        }
-
-        private int GetChallengeCount()
-        {
-            try
-            {
-                // 调用OCR识别屏幕文字
-                var (text, _) = OcrUtil.RecognizeText("挑战次数");
-
-                // 提取所有数字（正则表达式去除非数字字符）
-                string numbersOnly = Regex.Replace(text, @"[^\d]", "");
-
-                // 处理无数字的情况
-                if (string.IsNullOrWhiteSpace(numbersOnly))
-                {
-                    Logger.Log("未检测到有效的挑战次数");
-                    return 0;
-                }
-
-                // 转换为整型
-                return int.Parse(numbersOnly);
-            }
-            catch (Exception ex)
-            {
-                Logger.Log($"获取挑战次数失败: {ex.Message}");
-                return 999;
+                MessageBox.Show("请选择一个测试选项！");
             }
         }
+
     }
 }

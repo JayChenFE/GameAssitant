@@ -31,7 +31,6 @@
             this.btn_start = new System.Windows.Forms.Button();
             this.btnTestImage = new System.Windows.Forms.Button();
             this.txtImageName = new System.Windows.Forms.TextBox();
-            this.txtInput = new System.Windows.Forms.TextBox();
             this.btnTestOther = new System.Windows.Forms.Button();
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabTask = new System.Windows.Forms.TabPage();
@@ -48,6 +47,9 @@
             this.btnConfigAccounts = new System.Windows.Forms.Button();
             this.btnConfigRoles = new System.Windows.Forms.Button();
             this.tabTest = new System.Windows.Forms.TabPage();
+            this.btnTestCoordinate = new System.Windows.Forms.Button();
+            this.txtTestCoordinate = new System.Windows.Forms.TextBox();
+            this.cbxTestOther = new System.Windows.Forms.ComboBox();
             this.tabs.SuspendLayout();
             this.tabTask.SuspendLayout();
             this.tabConfig.SuspendLayout();
@@ -81,16 +83,9 @@
             this.txtImageName.Size = new System.Drawing.Size(100, 21);
             this.txtImageName.TabIndex = 2;
             // 
-            // txtInput
-            // 
-            this.txtInput.Location = new System.Drawing.Point(104, 65);
-            this.txtInput.Name = "txtInput";
-            this.txtInput.Size = new System.Drawing.Size(100, 21);
-            this.txtInput.TabIndex = 4;
-            // 
             // btnTestOther
             // 
-            this.btnTestOther.Location = new System.Drawing.Point(23, 65);
+            this.btnTestOther.Location = new System.Drawing.Point(23, 151);
             this.btnTestOther.Name = "btnTestOther";
             this.btnTestOther.Size = new System.Drawing.Size(75, 23);
             this.btnTestOther.TabIndex = 3;
@@ -256,8 +251,10 @@
             // 
             // tabTest
             // 
+            this.tabTest.Controls.Add(this.cbxTestOther);
+            this.tabTest.Controls.Add(this.txtTestCoordinate);
+            this.tabTest.Controls.Add(this.btnTestCoordinate);
             this.tabTest.Controls.Add(this.btnTestImage);
-            this.tabTest.Controls.Add(this.txtInput);
             this.tabTest.Controls.Add(this.btnTestOther);
             this.tabTest.Controls.Add(this.txtImageName);
             this.tabTest.Location = new System.Drawing.Point(4, 22);
@@ -266,6 +263,32 @@
             this.tabTest.TabIndex = 2;
             this.tabTest.Text = "测试";
             this.tabTest.UseVisualStyleBackColor = true;
+            // 
+            // btnTestCoordinate
+            // 
+            this.btnTestCoordinate.Location = new System.Drawing.Point(23, 81);
+            this.btnTestCoordinate.Name = "btnTestCoordinate";
+            this.btnTestCoordinate.Size = new System.Drawing.Size(75, 23);
+            this.btnTestCoordinate.TabIndex = 5;
+            this.btnTestCoordinate.Text = "测试坐标";
+            this.btnTestCoordinate.UseVisualStyleBackColor = true;
+            this.btnTestCoordinate.Click += new System.EventHandler(this.btnTestCoordinate_Click);
+            // 
+            // txtTestCoordinate
+            // 
+            this.txtTestCoordinate.Location = new System.Drawing.Point(104, 81);
+            this.txtTestCoordinate.Name = "txtTestCoordinate";
+            this.txtTestCoordinate.Size = new System.Drawing.Size(100, 21);
+            this.txtTestCoordinate.TabIndex = 6;
+            // 
+            // cbxTestOther
+            // 
+            this.cbxTestOther.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxTestOther.FormattingEnabled = true;
+            this.cbxTestOther.Location = new System.Drawing.Point(104, 151);
+            this.cbxTestOther.Name = "cbxTestOther";
+            this.cbxTestOther.Size = new System.Drawing.Size(100, 20);
+            this.cbxTestOther.TabIndex = 7;
             // 
             // MainForm
             // 
@@ -290,7 +313,6 @@
         private System.Windows.Forms.Button btn_start;
         private System.Windows.Forms.Button btnTestImage;
         private System.Windows.Forms.TextBox txtImageName;
-        private System.Windows.Forms.TextBox txtInput;
         private System.Windows.Forms.Button btnTestOther;
         private System.Windows.Forms.TabControl tabs;
         private System.Windows.Forms.TabPage tabTask;
@@ -307,6 +329,9 @@
         private System.Windows.Forms.TabPage tabActivity;
         private System.Windows.Forms.Button btnConfigAccounts;
         private System.Windows.Forms.Button btnConfigRoles;
+        private System.Windows.Forms.Button btnTestCoordinate;
+        private System.Windows.Forms.ComboBox cbxTestOther;
+        private System.Windows.Forms.TextBox txtTestCoordinate;
     }
 }
 

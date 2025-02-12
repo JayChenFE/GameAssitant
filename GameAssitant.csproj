@@ -130,6 +130,9 @@
   <ItemGroup>
     <Compile Include="Applications\Tasks\Arena.cs" />
     <Compile Include="Applications\Tasks\Fish.cs" />
+    <Compile Include="Applications\Tests\TestBase.cs" />
+    <Compile Include="Applications\Tests\TestBonus.cs" />
+    <Compile Include="Applications\Tests\TestChallengeCount.cs" />
     <Compile Include="Applications\UI\AccountConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -1,6 +1,7 @@
 ﻿using GameAssistant
     ;
 using GameAssistant.Configs;
+using GameAssitant.Applications.Tests;
 using GameAssitant.Domain;
 using GameAssitant.Infrastructure.Utils;
 using System;
@@ -34,11 +35,11 @@ namespace GameAssitant.Applications.UI
 
             clbxTask.DataSource = _taskNames;
             cbxAllTasks.CheckedChanged += (sender, e) => SetAllItemsChecked(clbxTask, cbxAllTasks.Checked);
-           
 
+            cbxTestOther.Items.Add(new TestBonus());
+            cbxTestOther.Items.Add(new TestChallengeCount());
+            cbxTestOther.DisplayMember = "TestName";
         }
-
-
 
 
         private void SetAllItemsChecked(CheckedListBox checkedListBox, bool isChecked)
@@ -48,8 +49,6 @@ namespace GameAssitant.Applications.UI
                 checkedListBox.SetItemChecked(i, isChecked);
             }
         }
-
-
 
         private async void BtnStart_Click(object sender, EventArgs e)
         {
@@ -82,5 +81,7 @@ namespace GameAssitant.Applications.UI
                 accountConfigForm.ShowDialog();
             }
         }
+
+       
     }
 }
