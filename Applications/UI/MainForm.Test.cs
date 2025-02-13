@@ -95,7 +95,7 @@ namespace GameAssitant.Applications.UI
                 for (int i = 0; i < 3; i++)
                 {
                     SleepHelper.DelayExecution(1.5);
-                    MouseAction.Click(scaledPoint.X, scaledPoint.Y);
+                    MouseAction.ClickPoint(scaledPoint);
                 }
 
             }
