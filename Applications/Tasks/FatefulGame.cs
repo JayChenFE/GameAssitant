@@ -1,11 +1,5 @@
 ﻿using GameAssistant;
-using GameAssistant.Utils;
-using GameAssitant.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using GameAssitant.Infrastructure.Utils;
 
 namespace GameAssitant.Applications.Tasks
 {

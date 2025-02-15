@@ -1,8 +1,7 @@
 ﻿using GameAssistant;
-using GameAssistant.Utils;
+using GameAssitant.Infrastructure.Utils;
 using System;
 using System.Text.RegularExpressions;
-using System.Threading;
 
 namespace GameAssitant.Applications.Tasks
 {
@@ -14,7 +13,6 @@ namespace GameAssitant.Applications.Tasks
         private const int DefaultWaitSeconds = 2;
         private const int BattleAttempts = 4;
         private const int OcrErrorCode = -1;
-        private const double ConfidenceThreshold = 0.95;
 
         public Arena()
         {

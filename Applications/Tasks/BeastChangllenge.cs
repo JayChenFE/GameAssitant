@@ -26,7 +26,7 @@ namespace GameAssitant.Applications.Tasks
 
             MouseAction.Click(3, "圣兽挑战");
             MouseAction.Click(1, 2, "取消购买");
-            MouseAction.Click(3, 5, "圣兽挑战扫荡", "空白");
+            MouseAction.Click(3, 5, "圣兽挑战扫荡", "取消购买");
 
             MouseAction.Click(2, 3, "主城");
         }

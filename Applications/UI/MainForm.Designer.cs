@@ -1,4 +1,4 @@
-﻿namespace GameAssitant
+﻿namespace GameAssitant.Applications.UI
 {
     partial class MainForm
     {
@@ -31,9 +31,8 @@
             this.btn_start = new System.Windows.Forms.Button();
             this.btnTestImage = new System.Windows.Forms.Button();
             this.txtImageName = new System.Windows.Forms.TextBox();
-            this.txtInput = new System.Windows.Forms.TextBox();
             this.btnTestOther = new System.Windows.Forms.Button();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabs = new System.Windows.Forms.TabControl();
             this.tabTask = new System.Windows.Forms.TabPage();
             this.cbxAllAccounts = new System.Windows.Forms.CheckBox();
             this.cbxAllTasks = new System.Windows.Forms.CheckBox();
@@ -43,14 +42,17 @@
             this.lbTask = new System.Windows.Forms.Label();
             this.clbxTask = new System.Windows.Forms.CheckedListBox();
             this.cbxMultiAccount = new System.Windows.Forms.CheckBox();
-            this.tabAccount = new System.Windows.Forms.TabPage();
-            this.label2 = new System.Windows.Forms.Label();
-            this.tabTest = new System.Windows.Forms.TabPage();
             this.tabActivity = new System.Windows.Forms.TabPage();
-            this.tabRole = new System.Windows.Forms.TabPage();
-            this.tabControl1.SuspendLayout();
+            this.tabConfig = new System.Windows.Forms.TabPage();
+            this.btnConfigAccounts = new System.Windows.Forms.Button();
+            this.btnConfigRoles = new System.Windows.Forms.Button();
+            this.tabTest = new System.Windows.Forms.TabPage();
+            this.btnTestCoordinate = new System.Windows.Forms.Button();
+            this.txtTestCoordinate = new System.Windows.Forms.TextBox();
+            this.cbxTestOther = new System.Windows.Forms.ComboBox();
+            this.tabs.SuspendLayout();
             this.tabTask.SuspendLayout();
-            this.tabAccount.SuspendLayout();
+            this.tabConfig.SuspendLayout();
             this.tabTest.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,7 +64,7 @@
             this.btn_start.TabIndex = 0;
             this.btn_start.Text = "开始";
             this.btn_start.UseVisualStyleBackColor = true;
-            this.btn_start.Click += new System.EventHandler(this.btnStart_Click);
+            this.btn_start.Click += new System.EventHandler(this.BtnStart_Click);
             // 
             // btnTestImage
             // 
@@ -81,16 +83,9 @@
             this.txtImageName.Size = new System.Drawing.Size(100, 21);
             this.txtImageName.TabIndex = 2;
             // 
-            // txtInput
-            // 
-            this.txtInput.Location = new System.Drawing.Point(104, 65);
-            this.txtInput.Name = "txtInput";
-            this.txtInput.Size = new System.Drawing.Size(100, 21);
-            this.txtInput.TabIndex = 4;
-            // 
             // btnTestOther
             // 
-            this.btnTestOther.Location = new System.Drawing.Point(23, 65);
+            this.btnTestOther.Location = new System.Drawing.Point(23, 151);
             this.btnTestOther.Name = "btnTestOther";
             this.btnTestOther.Size = new System.Drawing.Size(75, 23);
             this.btnTestOther.TabIndex = 3;
@@ -98,18 +93,17 @@
             this.btnTestOther.UseVisualStyleBackColor = true;
             this.btnTestOther.Click += new System.EventHandler(this.btnTestOther_Click);
             // 
-            // tabControl1
+            // tabs
             // 
-            this.tabControl1.Controls.Add(this.tabTask);
-            this.tabControl1.Controls.Add(this.tabActivity);
-            this.tabControl1.Controls.Add(this.tabRole);
-            this.tabControl1.Controls.Add(this.tabAccount);
-            this.tabControl1.Controls.Add(this.tabTest);
-            this.tabControl1.Location = new System.Drawing.Point(-5, -2);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(253, 638);
-            this.tabControl1.TabIndex = 5;
+            this.tabs.Controls.Add(this.tabTask);
+            this.tabs.Controls.Add(this.tabActivity);
+            this.tabs.Controls.Add(this.tabConfig);
+            this.tabs.Controls.Add(this.tabTest);
+            this.tabs.Location = new System.Drawing.Point(-5, -2);
+            this.tabs.Name = "tabs";
+            this.tabs.SelectedIndex = 0;
+            this.tabs.Size = new System.Drawing.Size(249, 638);
+            this.tabs.TabIndex = 5;
             // 
             // tabTask
             // 
@@ -125,7 +119,7 @@
             this.tabTask.Location = new System.Drawing.Point(4, 22);
             this.tabTask.Name = "tabTask";
             this.tabTask.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTask.Size = new System.Drawing.Size(245, 612);
+            this.tabTask.Size = new System.Drawing.Size(241, 612);
             this.tabTask.TabIndex = 0;
             this.tabTask.Text = "任务";
             this.tabTask.UseVisualStyleBackColor = true;
@@ -214,70 +208,100 @@
             this.cbxMultiAccount.Text = "开启多账号模式";
             this.cbxMultiAccount.UseVisualStyleBackColor = true;
             // 
-            // tabAccount
-            // 
-            this.tabAccount.Controls.Add(this.label2);
-            this.tabAccount.Location = new System.Drawing.Point(4, 22);
-            this.tabAccount.Name = "tabAccount";
-            this.tabAccount.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAccount.Size = new System.Drawing.Size(228, 612);
-            this.tabAccount.TabIndex = 1;
-            this.tabAccount.Text = "帐号";
-            this.tabAccount.UseVisualStyleBackColor = true;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(71, 101);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(113, 12);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "这里暂时什么都没有";
-            // 
-            // tabTest
-            // 
-            this.tabTest.Controls.Add(this.btnTestImage);
-            this.tabTest.Controls.Add(this.txtInput);
-            this.tabTest.Controls.Add(this.btnTestOther);
-            this.tabTest.Controls.Add(this.txtImageName);
-            this.tabTest.Location = new System.Drawing.Point(4, 22);
-            this.tabTest.Name = "tabTest";
-            this.tabTest.Size = new System.Drawing.Size(245, 612);
-            this.tabTest.TabIndex = 2;
-            this.tabTest.Text = "测试";
-            this.tabTest.UseVisualStyleBackColor = true;
-            // 
             // tabActivity
             // 
             this.tabActivity.Location = new System.Drawing.Point(4, 22);
             this.tabActivity.Name = "tabActivity";
-            this.tabActivity.Size = new System.Drawing.Size(228, 612);
+            this.tabActivity.Size = new System.Drawing.Size(241, 612);
             this.tabActivity.TabIndex = 3;
             this.tabActivity.Text = "活动";
             this.tabActivity.UseVisualStyleBackColor = true;
             // 
-            // tabRole
+            // tabConfig
             // 
-            this.tabRole.Location = new System.Drawing.Point(4, 22);
-            this.tabRole.Name = "tabRole";
-            this.tabRole.Size = new System.Drawing.Size(228, 612);
-            this.tabRole.TabIndex = 4;
-            this.tabRole.Text = "角色";
-            this.tabRole.UseVisualStyleBackColor = true;
+            this.tabConfig.Controls.Add(this.btnConfigAccounts);
+            this.tabConfig.Controls.Add(this.btnConfigRoles);
+            this.tabConfig.Location = new System.Drawing.Point(4, 22);
+            this.tabConfig.Name = "tabConfig";
+            this.tabConfig.Padding = new System.Windows.Forms.Padding(3);
+            this.tabConfig.Size = new System.Drawing.Size(241, 612);
+            this.tabConfig.TabIndex = 1;
+            this.tabConfig.Text = "配置";
+            this.tabConfig.UseVisualStyleBackColor = true;
+            // 
+            // btnConfigAccounts
+            // 
+            this.btnConfigAccounts.Location = new System.Drawing.Point(56, 206);
+            this.btnConfigAccounts.Name = "btnConfigAccounts";
+            this.btnConfigAccounts.Size = new System.Drawing.Size(86, 32);
+            this.btnConfigAccounts.TabIndex = 1;
+            this.btnConfigAccounts.Text = "配置账号";
+            this.btnConfigAccounts.UseVisualStyleBackColor = true;
+            this.btnConfigAccounts.Click += new System.EventHandler(this.BtnConfigAccounts_Click);
+            // 
+            // btnConfigRoles
+            // 
+            this.btnConfigRoles.Location = new System.Drawing.Point(56, 51);
+            this.btnConfigRoles.Name = "btnConfigRoles";
+            this.btnConfigRoles.Size = new System.Drawing.Size(86, 39);
+            this.btnConfigRoles.TabIndex = 0;
+            this.btnConfigRoles.Text = "配置角色";
+            this.btnConfigRoles.UseVisualStyleBackColor = true;
+            this.btnConfigRoles.Click += new System.EventHandler(this.BtnConfigRoles_Click);
+            // 
+            // tabTest
+            // 
+            this.tabTest.Controls.Add(this.cbxTestOther);
+            this.tabTest.Controls.Add(this.txtTestCoordinate);
+            this.tabTest.Controls.Add(this.btnTestCoordinate);
+            this.tabTest.Controls.Add(this.btnTestImage);
+            this.tabTest.Controls.Add(this.btnTestOther);
+            this.tabTest.Controls.Add(this.txtImageName);
+            this.tabTest.Location = new System.Drawing.Point(4, 22);
+            this.tabTest.Name = "tabTest";
+            this.tabTest.Size = new System.Drawing.Size(241, 612);
+            this.tabTest.TabIndex = 2;
+            this.tabTest.Text = "测试";
+            this.tabTest.UseVisualStyleBackColor = true;
+            // 
+            // btnTestCoordinate
+            // 
+            this.btnTestCoordinate.Location = new System.Drawing.Point(23, 81);
+            this.btnTestCoordinate.Name = "btnTestCoordinate";
+            this.btnTestCoordinate.Size = new System.Drawing.Size(75, 23);
+            this.btnTestCoordinate.TabIndex = 5;
+            this.btnTestCoordinate.Text = "测试坐标";
+            this.btnTestCoordinate.UseVisualStyleBackColor = true;
+            this.btnTestCoordinate.Click += new System.EventHandler(this.btnTestCoordinate_Click);
+            // 
+            // txtTestCoordinate
+            // 
+            this.txtTestCoordinate.Location = new System.Drawing.Point(104, 81);
+            this.txtTestCoordinate.Name = "txtTestCoordinate";
+            this.txtTestCoordinate.Size = new System.Drawing.Size(100, 21);
+            this.txtTestCoordinate.TabIndex = 6;
+            // 
+            // cbxTestOther
+            // 
+            this.cbxTestOther.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxTestOther.FormattingEnabled = true;
+            this.cbxTestOther.Location = new System.Drawing.Point(104, 151);
+            this.cbxTestOther.Name = "cbxTestOther";
+            this.cbxTestOther.Size = new System.Drawing.Size(100, 20);
+            this.cbxTestOther.TabIndex = 7;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(239, 634);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.tabs);
             this.Name = "MainForm";
             this.Text = "星舰助手";
-            this.tabControl1.ResumeLayout(false);
+            this.tabs.ResumeLayout(false);
             this.tabTask.ResumeLayout(false);
             this.tabTask.PerformLayout();
-            this.tabAccount.ResumeLayout(false);
-            this.tabAccount.PerformLayout();
+            this.tabConfig.ResumeLayout(false);
             this.tabTest.ResumeLayout(false);
             this.tabTest.PerformLayout();
             this.ResumeLayout(false);
@@ -289,23 +313,25 @@
         private System.Windows.Forms.Button btn_start;
         private System.Windows.Forms.Button btnTestImage;
         private System.Windows.Forms.TextBox txtImageName;
-        private System.Windows.Forms.TextBox txtInput;
         private System.Windows.Forms.Button btnTestOther;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl tabs;
         private System.Windows.Forms.TabPage tabTask;
-        private System.Windows.Forms.TabPage tabAccount;
+        private System.Windows.Forms.TabPage tabConfig;
         private System.Windows.Forms.TabPage tabTest;
         private System.Windows.Forms.CheckBox cbxMultiAccount;
         private System.Windows.Forms.CheckedListBox clbxTask;
         private System.Windows.Forms.Label lbTask;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label laAccount;
         private System.Windows.Forms.CheckedListBox clbxAccount;
         private System.Windows.Forms.CheckBox cbxForce;
         private System.Windows.Forms.CheckBox cbxAllAccounts;
         private System.Windows.Forms.CheckBox cbxAllTasks;
         private System.Windows.Forms.TabPage tabActivity;
-        private System.Windows.Forms.TabPage tabRole;
+        private System.Windows.Forms.Button btnConfigAccounts;
+        private System.Windows.Forms.Button btnConfigRoles;
+        private System.Windows.Forms.Button btnTestCoordinate;
+        private System.Windows.Forms.ComboBox cbxTestOther;
+        private System.Windows.Forms.TextBox txtTestCoordinate;
     }
 }
 

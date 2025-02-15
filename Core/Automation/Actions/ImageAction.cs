@@ -1,5 +1,5 @@
 ﻿using GameAssistant.Configs;
-using GameAssistant.Utils;
+using GameAssitant.Infrastructure.Utils;
 using System;
 using System.Drawing;
 using System.IO;

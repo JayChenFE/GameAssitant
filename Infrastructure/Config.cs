@@ -1,8 +1,9 @@
-﻿using GameAssitant.Configs;
+﻿using GameAssitant.Domain;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -19,6 +20,12 @@ namespace GameAssistant.Configs
         public List<Account> Accounts { get; set; }
         public List<Account> SelectedAccounts { get; set; }
         public List<string> SelectedTaskNames { get; set; }
+
+        public string AccountFilePath { get; private set; }
+        public string CoordinateFilePath { get; private set; }
+        public string AreaFilePath { get; private set; }
+        public string ScaleFilePath { get; private set; }
+        public string CommonFilePath { get; private set; }
 
         // 线程安全处理
         private static readonly ReaderWriterLockSlim rwLock = new ReaderWriterLockSlim();
@@ -54,10 +61,7 @@ namespace GameAssistant.Configs
 
         // 配置文件路径
         private const string ResourcePath = "C:\\resource";
-        private static readonly string CoordinateFilePath = Path.Combine(ResourcePath, "coordinate.yaml");
-        private static readonly string AreaFilePath = Path.Combine(ResourcePath, "area.yaml");
-        private static readonly string ScaleFilePath = Path.Combine(ResourcePath, "scale.yaml");
-        private static readonly string AccountFilePath = Path.Combine(ResourcePath, "account.yaml");
+
 
         private static Config _instance;
         private static readonly object LockObject = new object();
@@ -98,15 +102,46 @@ namespace GameAssistant.Configs
         {
             ValidateResourcePath();
 
-            Config config = new Config();
-            config.Scale = LoadYaml<ScaleConfig>(ScaleFilePath);
-            config.Coordinates = LoadYamlCoordinates(CoordinateFilePath);
-            config.Areas = LoadYamlAreas(AreaFilePath, config.Scale);
-            config.Accounts = LoadYaml<List<Account>>(AccountFilePath);
+            Config config = new Config
+            {
+                CoordinateFilePath = Path.Combine(ResourcePath, "coordinate.yaml"),
+                AreaFilePath = Path.Combine(ResourcePath, "area.yaml"),
+                ScaleFilePath = Path.Combine(ResourcePath, "scale.yaml"),
+                AccountFilePath = Path.Combine(ResourcePath, "account.yaml"),
+                CommonFilePath = Path.Combine(ResourcePath, "common.yaml")
+            };
+
+            config.Scale = LoadYaml<ScaleConfig>(config.ScaleFilePath);
+            config.Coordinates = LoadYamlCoordinates(config.CoordinateFilePath);
+            config.Areas = LoadYamlAreas(config.AreaFilePath, config.Scale);
+            config.Accounts = LoadAccounts(config.AccountFilePath);
             config.ImageFolderPath = Path.Combine(ResourcePath, "images");
 
 
             return config;
+        }
+
+        private static List<Account> LoadAccounts(string accountFilePath)
+        {
+            var accounts = LoadYaml<List<Account>>(accountFilePath);
+
+            foreach (var account in accounts)
+            {
+                account.TaskNames = SplitAndClean(account.Task);
+                account.RewardNames = SplitAndClean(account.Reward);
+            }
+
+            return accounts;
+        }
+
+        // 通用方法：按逗号分割字符串并清理空值
+        private static List<string> SplitAndClean(string input)
+        {
+            return input
+                .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim())
+                .Where(s => !string.IsNullOrEmpty(s))
+                .ToList();
         }
 
         /// <summary>

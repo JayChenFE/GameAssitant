@@ -1,10 +1,11 @@
 ﻿using Emgu.CV;
+using GameAssistant;
 using GameAssistant.Configs;
 using System;
 using System.Drawing;
 using Tesseract;
 
-namespace GameAssistant.Utils
+namespace GameAssitant.Infrastructure.Utils
 {
     public static class OcrUtil
     {

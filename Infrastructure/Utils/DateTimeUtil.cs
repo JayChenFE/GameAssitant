@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameAssitant.Utils
+namespace GameAssitant.Infrastructure.Utils
 {
     public static class DateTimeUtil
     {
@@ -29,8 +29,7 @@ namespace GameAssitant.Utils
         public static bool IsTaskDue(string firstRunDateString, int cycleDays)
         {
             // 尝试将字符串转换为日期
-            DateTime firstRunDate;
-            if (!DateTime.TryParse(firstRunDateString, out firstRunDate))
+            if (!DateTime.TryParse(firstRunDateString, out DateTime firstRunDate))
             {
                 throw new ArgumentException("无效的日期格式", nameof(firstRunDateString));
             }

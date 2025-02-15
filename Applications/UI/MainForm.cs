@@ -1,26 +1,30 @@
 ﻿using GameAssistant
     ;
 using GameAssistant.Configs;
-using GameAssistant.Utils;
-using GameAssitant.Configs;
+using GameAssitant.Applications.Tests;
+using GameAssitant.Domain;
+using GameAssitant.Infrastructure.Utils;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GameAssitant
+namespace GameAssitant.Applications.UI
 {
     public partial class MainForm : Form
     {
 
         private readonly TaskManager _taskManager = new TaskManager();
-        private readonly BindingList<string> _taskNames = new BindingList<string>();
+        private readonly List<string> _taskNames = new List<string>();
         public MainForm()
         {
+            RegisterAllTasks();
             InitializeComponent();
             InitializeCustomComponents();
-            RegisterAllTasks();
+
 
         }
 
@@ -28,11 +32,15 @@ namespace GameAssitant
         {
             clbxAccount.DataSource = Config.Instance.Accounts;
             cbxAllAccounts.CheckedChanged += (sender, e) => SetAllItemsChecked(clbxAccount, cbxAllAccounts.Checked);
-            
+
             clbxTask.DataSource = _taskNames;
             cbxAllTasks.CheckedChanged += (sender, e) => SetAllItemsChecked(clbxTask, cbxAllTasks.Checked);
 
+            cbxTestOther.Items.Add(new TestBonus());
+            cbxTestOther.Items.Add(new TestChallengeCount());
+            cbxTestOther.DisplayMember = "TestName";
         }
+
 
         private void SetAllItemsChecked(CheckedListBox checkedListBox, bool isChecked)
         {
@@ -42,9 +50,7 @@ namespace GameAssitant
             }
         }
 
-       
-
-        private async void btnStart_Click(object sender, EventArgs e)
+        private async void BtnStart_Click(object sender, EventArgs e)
         {
             Config.Instance.IsForce = cbxForce.Checked;
             Config.Instance.SelectedAccounts = clbxAccount.CheckedItems.Cast<Account>().ToList();
@@ -63,5 +69,19 @@ namespace GameAssitant
 
         }
 
+        private void BtnConfigRoles_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("配置角色功能暂未实现");
+        }
+
+        private void BtnConfigAccounts_Click(object sender, EventArgs e)
+        {
+            using (var accountConfigForm = new AccountConfigForm(_taskNames))
+            {
+                accountConfigForm.ShowDialog();
+            }
+        }
+
+       
     }
 }

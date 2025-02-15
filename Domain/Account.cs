@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace GameAssitant.Configs
+namespace GameAssitant.Domain
 {
     public class Account
 
@@ -20,10 +16,12 @@ namespace GameAssitant.Configs
 
         public string Role { get; set; }
 
-        //public List<string> TaskNames { get; set; }
+        public List<string> TaskNames { get; set; }
 
-        public string Task { get; set; }
-        public string Reward { get; set; }
+        public List<string> RewardNames { get; set; }
+
+        public string Task { get; set; } = string.Empty;
+        public string Reward { get; set; } = string.Empty;
         public override string ToString()
         {
             return $"{Group}-{Name}-{Icon}";
