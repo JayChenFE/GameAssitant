@@ -90,7 +90,7 @@ namespace GameAssistant
 
                 SleepHelper.DelayExecution(afterDelaySeconds);
 
-                Logger.Log($"点击了{imageName} 对应的坐标: ({point.X}, {point.Y})");
+                Logger.Log($"点击了{imageName} 对应的坐标: ({scaledPoint.X}, {scaledPoint.Y})");
             }
             else
             {
