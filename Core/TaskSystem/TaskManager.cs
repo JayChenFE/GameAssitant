@@ -4,12 +4,14 @@ using GameAssitant.Domain;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace GameAssistant
 {
     public class TaskManager
     {
         private readonly List<TaskBase> _tasks = new List<TaskBase>();
+        private bool _isMultiAccount;
 
         public void RegisterTask(TaskBase task)
         {
@@ -18,7 +20,8 @@ namespace GameAssistant
 
         public void ExecuteAllTasks(bool isMultiAccount)
         {
-            if (isMultiAccount)
+            _isMultiAccount = isMultiAccount; // 设置全局状
+            if (_isMultiAccount)
             {
                 ExecuteForAllAccounts();
             }
@@ -37,7 +40,7 @@ namespace GameAssistant
                 Config.Instance.CurrentAccount = account;
                 if (!ImageAction.IsImagePresent(account.Group))
                 {
-                    Logger.Log($"当前不在{account.Name}所在的分组${account.Group}");
+                    Logger.Log($"当前不在 {account.Name} 所在的分组 [{account.Group}]");
                     continue;
                 }
 
@@ -88,14 +91,50 @@ namespace GameAssistant
 
         private List<TaskBase> GetTasksToExecute()
         {
-            var selectedTaskNames = Config.Instance.SelectedTaskNames;
+            // 1️⃣ 获取任务名称集合
+            var taskNames = GetTaskNamesToExecute();
 
-            if (selectedTaskNames.Count > 0)
+            // 2️⃣ 根据名称筛选任务
+            return GetTasksByNames(taskNames);
+        }
+
+
+        private List<string> GetTaskNamesToExecute()
+        {
+            if (_isMultiAccount)
             {
-                return _tasks.FindAll(x => selectedTaskNames.Contains(x.TaskName));
+
+                // 1️⃣ 全局已选任务
+                if (Config.Instance.SelectedTaskNames?.Count > 0)
+                {
+                    return Config.Instance.SelectedTaskNames;
+                }
+
+                // 2️⃣ 角色默认任务
+                // TODO
+
+
+                // 3️⃣ 账号任务
+                var accountTaskNames = Config.Instance.CurrentAccount?.TaskNames;
+                if (accountTaskNames?.Count > 0)
+                {
+                    return accountTaskNames;
+                }
             }
 
-            return _tasks;
+            // 4️⃣ 默认任务（所有任务）
+            return _tasks.Select(t => t.TaskName).ToList();
+        }
+
+        /// <summary>
+        /// 根据任务名称列表筛选任务
+        /// </summary>
+        private List<TaskBase> GetTasksByNames(IEnumerable<string> taskNames)
+        {
+            if (taskNames == null) return new List<TaskBase>();
+
+            // 根据任务名称匹配已注册的任务
+            return _tasks.Where(task => taskNames.Contains(task.TaskName)).ToList();
         }
     }
 }

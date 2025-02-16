@@ -1,13 +1,10 @@
-﻿using GameAssistant
-    ;
+﻿using GameAssistant;
 using GameAssistant.Configs;
 using GameAssitant.Applications.Tests;
 using GameAssitant.Domain;
 using GameAssitant.Infrastructure.Utils;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,7 +13,6 @@ namespace GameAssitant.Applications.UI
 {
     public partial class MainForm : Form
     {
-
         private readonly TaskManager _taskManager = new TaskManager();
         private readonly List<string> _taskNames = new List<string>();
         public MainForm()
@@ -24,8 +20,6 @@ namespace GameAssitant.Applications.UI
             RegisterAllTasks();
             InitializeComponent();
             InitializeCustomComponents();
-
-
         }
 
         private void InitializeCustomComponents()
@@ -40,7 +34,6 @@ namespace GameAssitant.Applications.UI
             cbxTestOther.Items.Add(new TestChallengeCount());
             cbxTestOther.DisplayMember = "TestName";
         }
-
 
         private void SetAllItemsChecked(CheckedListBox checkedListBox, bool isChecked)
         {
@@ -66,7 +59,6 @@ namespace GameAssitant.Applications.UI
             });
 
             Logger.Log("所有任务调度完成。");
-
         }
 
         private void BtnConfigRoles_Click(object sender, EventArgs e)
@@ -76,12 +68,10 @@ namespace GameAssitant.Applications.UI
 
         private void BtnConfigAccounts_Click(object sender, EventArgs e)
         {
-            using (var accountConfigForm = new AccountConfigForm(_taskNames))
+            using (var accountConfigForm = new AccountConfig(_taskNames))
             {
                 accountConfigForm.ShowDialog();
             }
         }
-
-       
     }
 }
