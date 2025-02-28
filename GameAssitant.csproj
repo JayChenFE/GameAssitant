@@ -133,14 +133,15 @@
     <Compile Include="Applications\Tests\TestBase.cs" />
     <Compile Include="Applications\Tests\TestBonus.cs" />
     <Compile Include="Applications\Tests\TestChallengeCount.cs" />
-    <Compile Include="Applications\UI\AccountConfigForm.cs">
+    <Compile Include="Applications\UI\AccountConfig.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Applications\UI\AccountConfigForm.Designer.cs">
-      <DependentUpon>AccountConfigForm.cs</DependentUpon>
+    <Compile Include="Applications\UI\AccountConfig.Designer.cs">
+      <DependentUpon>AccountConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\Const.cs" />
     <Compile Include="Domain\Account.cs" />
+    <Compile Include="Domain\CommonConfig.cs" />
     <Compile Include="Domain\ScaleConfig.cs" />
     <Compile Include="Core\Automation\Actions\MouseAction.cs" />
     <Compile Include="Core\Automation\Services\MouseAutomation.cs" />
@@ -187,8 +188,8 @@
     <Compile Include="Infrastructure\Utils\OcrUtil.cs" />
     <Compile Include="Infrastructure\Utils\SleepHelper.cs" />
     <Compile Include="Infrastructure\Utils\WaitHelper.cs" />
-    <EmbeddedResource Include="Applications\UI\AccountConfigForm.resx">
-      <DependentUpon>AccountConfigForm.cs</DependentUpon>
+    <EmbeddedResource Include="Applications\UI\AccountConfig.resx">
+      <DependentUpon>AccountConfig.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Applications\UI\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

@@ -1,4 +1,5 @@
-﻿using GameAssitant.Domain;
+﻿using Emgu.CV.Ocl;
+using GameAssitant.Domain;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -16,6 +17,7 @@ namespace GameAssistant.Configs
         public Dictionary<string, Point> Coordinates { get; private set; }
         public Dictionary<string, Rectangle> Areas { get; private set; } = new Dictionary<string, Rectangle>();
         public ScaleConfig Scale { get; private set; }
+        public CommonConfig Common { get; private set; }
         public string ImageFolderPath { get; private set; }
         public List<Account> Accounts { get; set; }
         public List<Account> SelectedAccounts { get; set; }
@@ -111,24 +113,32 @@ namespace GameAssistant.Configs
                 CommonFilePath = Path.Combine(ResourcePath, "common.yaml")
             };
 
+            config.Common = LoadYaml<CommonConfig>(config.CommonFilePath);
+            config.Common.InitializeDerivedProperties();
+
             config.Scale = LoadYaml<ScaleConfig>(config.ScaleFilePath);
             config.Coordinates = LoadYamlCoordinates(config.CoordinateFilePath);
             config.Areas = LoadYamlAreas(config.AreaFilePath, config.Scale);
-            config.Accounts = LoadAccounts(config.AccountFilePath);
+            config.Accounts = LoadAccounts(config.AccountFilePath, config.Common);
             config.ImageFolderPath = Path.Combine(ResourcePath, "images");
 
 
             return config;
         }
 
-        private static List<Account> LoadAccounts(string accountFilePath)
+        private static List<Account> LoadAccounts(string accountFilePath,CommonConfig common)
         {
             var accounts = LoadYaml<List<Account>>(accountFilePath);
 
             foreach (var account in accounts)
             {
                 account.TaskNames = SplitAndClean(account.Task);
-                account.RewardNames = SplitAndClean(account.Reward);
+                account.RewardKeys = SplitAndClean(account.Reward);
+            }
+
+            foreach (var account in accounts)
+            {
+                account.ParseTaskAndReward(common);
             }
 
             return accounts;
