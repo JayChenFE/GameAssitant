@@ -101,14 +101,14 @@ namespace GameAssistant
 
         private List<string> GetTaskNamesToExecute()
         {
+            // 1️⃣ 全局已选任务
+            if (Config.Instance.SelectedTaskNames?.Count > 0)
+            {
+                return Config.Instance.SelectedTaskNames;
+            }
+
             if (_isMultiAccount)
             {
-
-                // 1️⃣ 全局已选任务
-                if (Config.Instance.SelectedTaskNames?.Count > 0)
-                {
-                    return Config.Instance.SelectedTaskNames;
-                }
 
                 // 2️⃣ 角色默认任务
                 // TODO
